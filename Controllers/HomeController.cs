@@ -38,6 +38,7 @@ public class HomeController : Controller
                     Id = p.Id,
                     Name = p.Name,
                     Price = p.Price,
+                    Quantity = p.Quantity,
                     Description = p.Description,
                     PhotoLink = p.PhotoLink
                 }).ToList()

@@ -38,6 +38,7 @@
                                         <img src="@product.PhotoLink" alt="@product.Description" class="card-img-bottom img-fluid product-img"/>
                                         <div class="card-footer">
                                             <strong>@product.Price.ToString("C")</strong>
+                                            <button class="btn btn-outline-primary">Add to cart</button>
                                         </div>
                                     </div>
                                 </div>
@@ -49,47 +50,3 @@
         </div>
     }
 </div>
-
-
-@* <ul class="categories"> *@
-@*     @foreach (var category in Model) *@
-@*     { *@
-@*         <li> *@
-@*             <span class="caret">@category.Name</span> *@
-@*             <ul class="stores nested"> *@
-@*                 @foreach (var store in category.Stores) *@
-@*                 { *@
-@*                     <li> *@
-@*                         <span class="caret">@store.Name</span> *@
-@*                         <div class="container nested"> *@
-@*                             <div class="row"> *@
-@*                                 @foreach (var product in store.Products) *@
-@*                                 { *@
-@*                                     <div class="col-6 col-md-4 col-lg-3 mb-4"> *@
-@*                                         <div class="card text-center h-100"> *@
-@*                                             <div class="card-body card-text-bg"> *@
-@*                                                 <p class="card-title">@product.Name<p/> *@
-@*                                             </div> *@
-@*                                             <img src="@product.PhotoLink" alt="@product.Description" class="card-img-bottom img-fluid product-img"/> *@
-@*                                             <div class="card-footer"> *@
-@*                                                 <strong>@product.Price.ToString("C")</strong> *@
-@*                                             </div> *@
-@*                                         </div> *@
-@*                                     </div> *@
-@*                                 } *@
-@*                             </div> *@
-@*                         </div> *@
-@* *@
-@*                         $1$ <ul class="products nested"> #1# *@
-@*                         $1$     @foreach (var product in store.Products) #1# *@
-@*                         $1$     { #1# *@
-@*                         $1$         <li>@product.Name - @product.Price.ToString("C")</li> #1# *@
-@*                         $1$         <img src="@product.PhotoLink" alt="@product.Description" class="product-img"/> #1# *@
-@*                         $1$     } #1# *@
-@*                         $1$ </ul> #1# *@
-@*                     </li> *@
-@*                 } *@
-@*             </ul> *@
-@*         </li> *@
-@*     } *@
-@* </ul> *@

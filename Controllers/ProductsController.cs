@@ -40,6 +40,7 @@ public class ProductsController : Controller
             Name = viewModel.Name,
             Description = viewModel.Description,
             Price = viewModel.Price,
+            Quantity = viewModel.Quantity,
             PhotoLink = viewModel.PhotoLink,
             StoreId = viewModel.Store
         };

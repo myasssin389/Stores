@@ -222,3 +222,19 @@ body::-webkit-scrollbar {
   border-bottom: 2px solid #415a77;
   font-weight: 600;
 }
+
+.card-footer > button {
+  width: 100%;
+  color: #0d1b2a;
+  border-color: #415a77 !important;
+  border-radius: 25px;
+  margin-top: 10px;
+}
+
+.card-footer > button:hover {
+  background-color: #415a77;
+}
+
+.card-footer > button:active {
+  background-color: #0d1b2a !important;
+}
