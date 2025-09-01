@@ -55,3 +55,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+document.querySelector('.shop-cart-toggler').addEventListener('click', function() {
+    const cartDropdown = document.getElementById('navbarShopCartDropdown');
+    cartDropdown.classList.toggle('show');
+});
