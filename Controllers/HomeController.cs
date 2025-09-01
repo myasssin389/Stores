@@ -25,6 +25,11 @@ public class HomeController : Controller
             .ThenInclude(s => s.Products)
             .ToListAsync();
 
+        var cartProductMaps = _context.CartProductMaps
+            .Include(c => c.Product)
+            .Include(c => c.Cart)
+            .ToListAsync();
+
         var viewModel = categories.Select(c => new CategoryViewModel
         {
             Id = c.Id,

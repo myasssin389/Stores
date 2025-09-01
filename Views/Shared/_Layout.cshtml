@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
@@ -14,9 +17,6 @@
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
             <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Stores</a>
-            <button class="shop-cart-toggler" type="button" aria-label="Toggle shopping cart">
-                <i class="bi bi-cart"></i>
-            </button>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -60,7 +60,9 @@
         @RenderBody()
     </main>
 </div>
-
+<button class="shop-cart-toggler" type="button" aria-label="Toggle shopping cart">
+    <i class="bi bi-cart"></i>
+</button>
 <footer class="border-top footer text-muted">
     <div class="container">
         &copy; 2025 - Stores - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>

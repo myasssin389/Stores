@@ -139,6 +139,9 @@ namespace Stores.Areas.Identity.Pages.Account
                     };
                     _context.Carts.Add(cart);
                     await _context.SaveChangesAsync();
+                    
+                    user.CartId = cart.Id;
+                    await _userManager.UpdateAsync(user);
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);

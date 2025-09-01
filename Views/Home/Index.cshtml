@@ -39,7 +39,16 @@
                                         <div class="card-footer">
                                             <p>Available: @product.Quantity</p>
                                             <strong>@product.Price.ToString("C")</strong>
-                                            <button class="btn btn-outline-primary">Add to cart</button>
+                                            
+                                            <div class="my-2">
+                                                <input type="number" class="form-control text-center product-quantity"
+                                                       name="quantity"
+                                                       value="1"
+                                                       min="1"
+                                                       max="@product.Quantity"
+                                                       oninput="checkMax(this, @product.Quantity)"/>
+                                            </div>
+                                            <button type="submit" class="btn btn-outline-primary" onclick="">Add to cart</button>
                                         </div>
                                     </div>
                                 </div>

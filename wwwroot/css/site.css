@@ -71,21 +71,27 @@ body::-webkit-scrollbar {
 /* Shopping Cart Styles */
 
 .shop-cart-toggler {
-  background: none;
+  position: fixed;
+  bottom: 13%;
+  left: 1.5%;
+  background-color: #415a77;
   border: none;
-  color: #a9cdeb;
+  border-radius: 50%;
+  width: 40px;
+  color: #e0e1dd;
   font-size: 1.5rem;
   margin-right: 10px;
 }
 
 .shop-cart-toggler:hover {
-  color: #e0e1dd;
+  background-color: #0d1b2a;
+  transition: background-color 0.2s ease-in-out;
 }
 
 .shopping-cart-dropdown {
   position: fixed;
-  top: 70px;
-  left: 50%;
+  bottom: 22%;
+  left: 18%;
   transform: translate(-50%);
   width: 300px;
   background-color: white;
@@ -135,6 +141,12 @@ body::-webkit-scrollbar {
   background-color: #415a77 !important;
   border-color: #415a77 !important;
   color: #e0e1dd !important;
+}
+
+.product-quantity {
+  width: 50px;
+  margin: 0 auto;
+  padding: 0 !important;
 }
 
 .cart-total {

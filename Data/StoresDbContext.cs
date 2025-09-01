@@ -22,6 +22,10 @@ public class StoresDbContext : IdentityDbContext<ApplicationUser>
     {
         base.OnModelCreating(builder);
         builder.Entity<CartProductMap>().HasKey(cpm => new { cpm.ProductId, cpm.CartId });
+        builder.Entity<ApplicationUser>()
+            .HasOne(a => a.Cart)
+            .WithOne(c => c.User)
+            .HasForeignKey<Cart>(c => c.UserId);
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

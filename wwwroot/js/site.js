@@ -60,3 +60,10 @@ document.querySelector('.shop-cart-toggler').addEventListener('click', function(
     const cartDropdown = document.getElementById('navbarShopCartDropdown');
     cartDropdown.classList.toggle('show');
 });
+
+function checkMax(input, max) {
+    if (input > max) {
+        alert(`Maximum available quantity is ${max}`);
+        input.value = max;
+    }
+}
