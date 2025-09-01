@@ -1,0 +1,48 @@
+﻿@model IEnumerable<Stores.ViewModels.CategoryViewModel>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<ul class="categories">
+    @foreach (var category in Model)
+    {
+        <li>
+            <span class="caret">@category.Name</span>
+            <ul class="stores nested">
+                @foreach (var store in category.Stores)
+                {
+                    <li>
+                        <span class="caret">@store.Name</span>
+                        <div class="container nested">
+                            <div class="row">
+                                @foreach (var product in store.Products)
+                                {
+                                    <div class="col-6 col-md-4 col-lg-3 mb-4">
+                                        <div class="card text-center h-100">
+                                            <div class="card-body card-text-bg">
+                                                <p class="card-title">@product.Name<p/>
+                                            </div>
+                                            <img src="@product.PhotoLink" alt="@product.Description" class="card-img-bottom img-fluid product-img"/>
+                                            <div class="card-footer">
+                                                <strong>@product.Price.ToString("C")</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        @* <ul class="products nested"> *@
+                        @*     @foreach (var product in store.Products) *@
+                        @*     { *@
+                        @*         <li>@product.Name - @product.Price.ToString("C")</li> *@
+                        @*         <img src="@product.PhotoLink" alt="@product.Description" class="product-img"/> *@
+                        @*     } *@
+                        @* </ul> *@
+                    </li>
+                }
+            </ul>
+        </li>
+    }
+</ul>
