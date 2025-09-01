@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Stores.Data;
 
@@ -11,9 +12,11 @@ using Stores.Data;
 namespace Stores.Migrations
 {
     [DbContext(typeof(StoresDbContext))]
-    partial class StoresDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250901112506_UserIdToString")]
+    partial class UserIdToString
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

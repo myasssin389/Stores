@@ -17,7 +17,13 @@ public class StoresDbContext : IdentityDbContext<ApplicationUser>
     {
         
     }
-    
+
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        base.OnModelCreating(builder);
+        builder.Entity<CartProductMap>().HasKey(cpm => new { cpm.ProductId, cpm.CartId });
+    }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         if (!optionsBuilder.IsConfigured)
@@ -34,4 +40,8 @@ public class StoresDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Product> Products { get; set; }
     
     public DbSet<Category> Categories { get; set; }
+    
+    public DbSet<Cart> Carts { get; set; }
+    
+    public DbSet<CartProductMap> CartProductMaps { get; set; }
 }
