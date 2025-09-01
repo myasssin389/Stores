@@ -1,7 +1,22 @@
-﻿@model IEnumerable<Stores.ViewModels.CategoryViewModel>
+﻿@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@inject StoresDbContext _context
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.EntityFrameworkCore
+@using Stores.Data
+@model IEnumerable<Stores.ViewModels.CategoryViewModel>
 
 @{
     ViewData["Title"] = "Home Page";
+    Cart userCart = null;
+
+    if (SignInManager.IsSignedIn(User))
+    {
+        var userId = UserManager.GetUserId(User);
+        userCart = _context.Carts.Include(c => c.CartProductMaps)
+            .ThenInclude(cp => cp.Product)
+            .FirstOrDefault(c => c.UserId == userId);
+    }
 }
 
 <div class="category-tabs">
@@ -40,15 +55,28 @@
                                             <p>Available: @product.Quantity</p>
                                             <strong>@product.Price.ToString("C")</strong>
                                             
-                                            <div class="my-2">
+                                            <form class="card-footer-form" method="post" asp-controller="Cart" asp-action="AddToCart">
+                                                <input type="hidden" name="productId" value="@product.Id" />
                                                 <input type="number" class="form-control text-center product-quantity"
                                                        name="quantity"
                                                        value="1"
                                                        min="1"
                                                        max="@product.Quantity"
-                                                       oninput="checkMax(this, @product.Quantity)"/>
-                                            </div>
-                                            <button type="submit" class="btn btn-outline-primary" onclick="">Add to cart</button>
+                                                       oninput="checkMax(this, @product.Quantity)" />
+                                                <button type="submit" class="btn btn-outline-primary mt-2">Add to cart</button>
+                                            </form>
+
+                                            
+                                            @* <div class="my-2"> *@
+                                            @*     <input type="number" class="form-control text-center product-quantity" *@
+                                            @*            name="quantity" *@
+                                            @*            id="quantity-@product.Id" *@
+                                            @*            value="1" *@
+                                            @*            min="1" *@
+                                            @*            max="@product.Quantity" *@
+                                            @*            oninput="checkMax(this, @product.Quantity)"/> *@
+                                            @* </div> *@
+                                            @* <button type="submit" class="btn btn-outline-primary" onclick="addToCart(@product.Id)">Add to cart</button> *@
                                         </div>
                                     </div>
                                 </div>

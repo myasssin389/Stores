@@ -6,7 +6,7 @@ public class ApplicationUser  : IdentityUser
 {
     public string Name { get; set; }
     
-    public Cart Cart { get; set; }
+    public Cart? Cart { get; set; }
     
     public int? CartId { get; set; }
 

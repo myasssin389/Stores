@@ -1,6 +1,22 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.EntityFrameworkCore
+@using Stores.Data
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
+@inject StoresDbContext _context
+
+@{
+    Cart userCart = null;
+
+    if (SignInManager.IsSignedIn(User))
+    {
+        var userId = UserManager.GetUserId(User);
+        userCart = _context.Carts.Include(c => c.CartProductMaps)
+            .ThenInclude(cp => cp.Product)
+            .FirstOrDefault(c => c.UserId == userId);
+    }
+}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,16 +55,29 @@
         <div class="shopping-cart-dropdown">
             <div class="cart-header">
                 <h6>Shopping Cart</h6>
-                <span class="cart-count">0 items</span>
+                <span class="cart-count">@(userCart?.CartProductMaps?.Count ?? 0) Items</span>
             </div>
             <div class="cart-items">
-                <div class="empty-cart">
-                    <p>Your cart is empty</p>
-                </div>
+                @if (userCart != null && userCart.CartProductMaps.Any())
+                {
+                    @foreach (var item in userCart.CartProductMaps)
+                    {
+                        <div class="cart-item">
+                            <span>@item.Product.Name</span> x @item.Quantity
+                            <button class="btn btn-outline-danger">remove item</button>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="empty-cart">
+                        <p>Your cart is empty</p>
+                    </div>
+                }
             </div>
             <div class="cart-footer">
                 <div class="cart-total">
-                    <strong>Total: $0.00</strong>
+                    <strong>Total: @userCart?.getTotalAmount().ToString("C")</strong>
                 </div>
                 <button class="btn btn-primary btn-sm">Checkout</button>
             </div>
