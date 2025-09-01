@@ -17,6 +17,9 @@ public class Product
     [Column(TypeName = "decimal(10,2)")]
     public decimal Price { get; set; }
     
+    [Required]
+    public int Quantity { get; set; }
+    
     public Store Store { get; set; }
     
     [Required]

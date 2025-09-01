@@ -11,3 +11,47 @@ for (i = 0; i < toggler.length; i++) {
         this.classList.toggle("caret-down");
     });
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    const categoryTabs = document.querySelectorAll('.category-tab');
+    const categoryStores = document.querySelectorAll('.category-stores');
+
+    // Show all categories by default
+    showAllCategories();
+
+    categoryTabs.forEach(tab => {
+        tab.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            // Remove active class from all tabs
+            categoryTabs.forEach(t => t.classList.remove('active'));
+
+            // Add active class to clicked tab
+            this.classList.add('active');
+
+            const selectedCategory = this.getAttribute('data-category');
+
+            if (selectedCategory === 'all') {
+                showAllCategories();
+            } else {
+                showSpecificCategory(selectedCategory);
+            }
+        });
+    });
+
+    function showAllCategories() {
+        categoryStores.forEach(store => {
+            store.classList.add('active');
+        });
+    }
+
+    function showSpecificCategory(categoryId) {
+        categoryStores.forEach(store => {
+            if (store.getAttribute('data-category-id') === categoryId) {
+                store.classList.add('active');
+            } else {
+                store.classList.remove('active');
+            }
+        });
+    }
+});
