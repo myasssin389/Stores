@@ -64,7 +64,7 @@
                     {
                         <div class="cart-item">
                             <span>@item.Product.Name</span> x @item.Quantity
-                            <button class="btn btn-outline-danger">remove item</button>
+                            <button class="btn btn-outline-danger" asp-action="DeleteFromCart" asp-controller="Cart"><i class="bi bi-trash"></i></button>
                         </div>
                     }
                 }

@@ -55,4 +55,29 @@ public class CartController : Controller
         
         return Redirect(Request.Headers["Referer"].ToString());
     }
+    
+    [HttpDelete("{productId}")]
+    public async Task<IActionResult> DeleteFromCart(int productId)
+    {
+        var userId = _userManager.GetUserId(User);
+        
+        var cart = await _context.Carts
+            .Include(c => c.CartProductMaps)
+            .FirstOrDefaultAsync(c => c.UserId == userId);
+        
+        if (cart == null)
+        {
+            cart = new Cart { UserId = userId };
+            _context.Carts.Add(cart);
+            await _context.SaveChangesAsync();
+        }
+        
+        var cartItem = cart.CartProductMaps.FirstOrDefault(c => c.ProductId == productId);
+        if (cartItem != null)
+        {
+            cart.CartProductMaps.Remove(cartItem);
+            await _context.SaveChangesAsync();
+        }
+        return Redirect(Request.Headers["Referer"].ToString());
+    }
 }
