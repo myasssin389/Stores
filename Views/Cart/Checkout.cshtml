@@ -1,0 +1,36 @@
+@model Cart
+
+<h2>Checkout</h2>
+
+<div class="checkout-summary container">
+    <h4>Order Summary</h4>
+    <hr/>
+    @foreach (var item in Model.CartProductMaps)
+    {
+        <div class="checkout-item col-6 col-md-4 col-lg-3 mb-4">
+            <div class="checkout-item-inner d-flex align-items-center">
+                <div class="d-flex align-items-center">
+                    <img src="@item.Product.PhotoLink"
+                         alt="@item.Product.Description"
+                         class="checkout-product-img img-fluid"/>
+
+                    <div class="checkout-item-text ms-3">
+                        <p class="product-name mb-1">@item.Product.Name</p>
+                        <p class="product-qty text-muted">x @item.Quantity</p>
+                    </div>
+                </div>
+                
+                <form action="/api/cart/remove/@item.ProductId" method="post" style="display:inline;">
+                    <input type="hidden" name="productId" value="@item.ProductId"/>
+                    <button type="submit" class="btn btn-outline-danger delete-item-from-cart">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </form>
+                <hr/>
+            </div>
+        </div>
+    }
+    <div class="total mt-4">
+        <strong>Total: @Model.getTotalAmount().ToString("C")</strong>
+    </div>
+</div>

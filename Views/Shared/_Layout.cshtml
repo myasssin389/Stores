@@ -51,47 +51,14 @@
             </div>
         </div>
     </nav>
-    <div class="shopping-cart-wrapper" id="navbarShopCartDropdown">
-        <div class="shopping-cart-dropdown">
-            <div class="cart-header">
-                <h6>Shopping Cart</h6>
-                <span class="cart-count">@(userCart?.CartProductMaps?.Count ?? 0) Items</span>
-            </div>
-            <div class="cart-items">
-                @if (userCart != null && userCart.CartProductMaps.Any())
-                {
-                    @foreach (var item in userCart.CartProductMaps)
-                    {
-                        <div class="cart-item">
-                            <span>@item.Product.Name</span> x @item.Quantity
-                            <button class="btn btn-outline-danger" asp-action="DeleteFromCart" asp-controller="Cart"><i class="bi bi-trash"></i></button>
-                        </div>
-                    }
-                }
-                else
-                {
-                    <div class="empty-cart">
-                        <p>Your cart is empty</p>
-                    </div>
-                }
-            </div>
-            <div class="cart-footer">
-                <div class="cart-total">
-                    <strong>Total: @userCart?.getTotalAmount().ToString("C")</strong>
-                </div>
-                <button class="btn btn-primary btn-sm">Checkout</button>
-            </div>
-        </div>
-    </div>
+    
 </header>
 <div class="container">
     <main role="main" class="pb-3">
         @RenderBody()
     </main>
 </div>
-<button class="shop-cart-toggler" type="button" aria-label="Toggle shopping cart">
-    <i class="bi bi-cart"></i>
-</button>
+
 <footer class="border-top footer text-muted">
     <div class="container">
         &copy; 2025 - Stores - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>

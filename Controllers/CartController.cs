@@ -21,7 +21,7 @@ public class CartController : Controller
         _userManager = userManager;
     }
 
-    [HttpPost]
+    [HttpPost("add/{productId}")]
     public async Task<IActionResult> AddToCart(int productId, int quantity = 1)
     {
         var userId = _userManager.GetUserId(User);
@@ -37,6 +37,16 @@ public class CartController : Controller
             await _context.SaveChangesAsync();
         }
 
+        var product = await _context.Products.FindAsync(productId);
+        if (product == null)
+        {
+            return NotFound("Product not found.");
+        }
+        if (product.Quantity < quantity)
+        {
+            return BadRequest("Not enough stock available.");
+        }
+        
         var cartItem = cart.CartProductMaps.FirstOrDefault(c => c.ProductId == productId);
         if (cartItem != null)
         {
@@ -51,12 +61,14 @@ public class CartController : Controller
             });
         }
 
+        product.Quantity -= quantity;
+        
         await _context.SaveChangesAsync();
         
-        return Redirect(Request.Headers["Referer"].ToString());
+        return RedirectToAction("Index", "Home");
     }
     
-    [HttpDelete("{productId}")]
+    [HttpPost("remove/{productId}")]
     public async Task<IActionResult> DeleteFromCart(int productId)
     {
         var userId = _userManager.GetUserId(User);
@@ -67,17 +79,45 @@ public class CartController : Controller
         
         if (cart == null)
         {
-            cart = new Cart { UserId = userId };
-            _context.Carts.Add(cart);
-            await _context.SaveChangesAsync();
+            return RedirectToAction("Index", "Home");
+        }
+        
+        var product = await _context.Products.FindAsync(productId);
+        if (product == null)
+        {
+            return NotFound("Product not found.");
         }
         
         var cartItem = cart.CartProductMaps.FirstOrDefault(c => c.ProductId == productId);
-        if (cartItem != null)
+        if (cartItem == null)
         {
-            cart.CartProductMaps.Remove(cartItem);
-            await _context.SaveChangesAsync();
+            return BadRequest("Item not found in cart.");
         }
-        return Redirect(Request.Headers["Referer"].ToString());
+        
+        product.Quantity += cartItem.Quantity;
+        cart.CartProductMaps.Remove(cartItem);
+        await _context.SaveChangesAsync();
+        
+        var referer = Request.Headers["Referer"].ToString();
+        return !string.IsNullOrEmpty(referer) 
+            ? Redirect(referer) 
+            : RedirectToAction("Checkout");
+    }
+    
+    [HttpGet]
+    public async Task<IActionResult> Checkout()
+    {
+        var userId = _userManager.GetUserId(User);
+        var cart = await _context.Carts
+            .Include(c => c.CartProductMaps)
+            .ThenInclude(cp => cp.Product)
+            .FirstOrDefaultAsync(c => c.UserId == userId);
+
+        if (cart == null || !cart.CartProductMaps.Any())
+        {
+            return RedirectToAction("Index", "Home");
+        }
+
+        return View(cart);
     }
 }

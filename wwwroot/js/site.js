@@ -66,20 +66,3 @@ function checkMax(input, max) {
         input.value = max;
     }
 }
-
-async function addToCart(productId) {
-    const quantity = parseInt(document.getElementById(`quantity-${productId}`).value) || 1;
-    
-    const response = await fetch('api/cart/add', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({productId, quantity})
-    })
-    
-    if (response.ok) {
-        const data = await response.json();
-        alert(`Added! Total items: ${data.totalItems}, Total: EGP ${data.totalAmount.toFixed(2)}`);
-    } else {
-        alert ('Failed to add item to cart')
-    }
-}

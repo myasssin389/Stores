@@ -55,7 +55,7 @@
                                             <p>Available: @product.Quantity</p>
                                             <strong>@product.Price.ToString("C")</strong>
                                             
-                                            <form class="card-footer-form" method="post" asp-controller="Cart" asp-action="AddToCart">
+                                            <form class="card-footer-form" action="/api/cart/add/@product.Id" method="post">
                                                 <input type="hidden" name="productId" value="@product.Id" />
                                                 <input type="number" class="form-control text-center product-quantity"
                                                        name="quantity"
@@ -63,7 +63,7 @@
                                                        min="1"
                                                        max="@product.Quantity"
                                                        oninput="checkMax(this, @product.Quantity)" />
-                                                <button type="submit" class="btn btn-outline-primary mt-2">Add to cart</button>
+                                                <button type="submit" class="btn btn-outline-primary mt-2 add-to-cart">Add to cart</button>
                                             </form>
                                         </div>
                                     </div>
@@ -75,4 +75,52 @@
             }
         </div>
     }
+</div>
+
+<div class="shopping-cart-wrapper" id="navbarShopCartDropdown">
+    <div class="shopping-cart-dropdown">
+        <div class="cart-header">
+            <h6>Shopping Cart</h6>
+            <span class="cart-count">@(userCart?.CartProductMaps?.Count ?? 0) Items</span>
+        </div>
+        <div class="cart-items">
+            @if (userCart != null && userCart.CartProductMaps.Any())
+            {
+                @foreach (var item in userCart.CartProductMaps)
+                {
+                    <div class="cart-item">
+                        <span>@item.Product.Name</span> x @item.Quantity
+                        <form action="/api/cart/remove/@item.ProductId" method="post" style="display:inline;">
+                            <input type="hidden" name="productId" value="@item.ProductId"/>
+                            <button type="submit" class="btn btn-outline-danger delete-item-from-cart">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </form>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="empty-cart">
+                    <p>Your cart is empty</p>
+                </div>
+            }
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <strong>Total: @userCart?.getTotalAmount().ToString("C")</strong>
+            </div>
+            <form asp-action="Checkout" asp-controller="Cart" method="get" style="display:inline;">
+                <button type="submit" class="btn btn-primary btn-sm checkout-btn">Checkout</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<button class="shop-cart-toggler" type="button" aria-label="Toggle shopping cart">
+    <i class="bi bi-cart"></i>
+</button>
+
+<div class="shopping-cart-item-count">
+    <span>@(userCart?.CartProductMaps?.Count ?? 0)</span>
 </div>
