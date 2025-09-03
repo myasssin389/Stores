@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Stores.Data;
 
@@ -11,9 +12,11 @@ using Stores.Data;
 namespace Stores.Migrations
 {
     [DbContext(typeof(StoresDbContext))]
-    partial class StoresDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250903141913_RemoveBillingAddressTemporarily")]
+    partial class RemoveBillingAddressTemporarily
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -351,8 +354,7 @@ namespace Stores.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("varchar(30)");
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
@@ -403,7 +405,7 @@ namespace Stores.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("ApartmentNumber")
+                    b.Property<string>("AppartmentNumber")
                         .IsRequired()
                         .HasMaxLength(10)
                         .HasColumnType("varchar(10)");

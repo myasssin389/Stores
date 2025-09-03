@@ -1,0 +1,40 @@
+@model Stores.Models.Order
+
+<h2>Order Confirmation</h2>
+<p>Thank you for your order! Here are your order details:</p>
+
+<div class="row">
+    <div class="col-md-6">
+        <h4>Order Summary</h4>
+        <hr />
+        @foreach (var item in Model.OrderItems)
+        {
+            <div class="checkout-item d-flex align-items-center mb-2">
+                <img src="@item.Product.PhotoLink" 
+                     alt="@item.Product.Description" 
+                     class="checkout-product-img me-2"/>
+                <div>
+                    <p class="mb-0">@item.Product.Name</p>
+                    <small>x @item.Quantity | @item.Product.Price.ToString("C") each</small>
+                </div>
+            </div>
+        }
+        <hr />
+        <p><strong>Total: @Model.Total.ToString("C")</strong></p>
+    </div>
+
+    <div class="col-md-6">
+        <h4>Shipping Address</h4>
+        <p>
+            @Model.ShippingAddress.StreetName @Model.ShippingAddress.StreetNumber,<br />
+            Building @Model.ShippingAddress.BuildingNumber, Apt @Model.ShippingAddress.ApartmentNumber<br />
+            @Model.ShippingAddress.City<br />
+            @Model.ShippingAddress.ZipCode
+        </p>
+        
+        <h4>Payment Method</h4>
+        <p>@Model.PaymentMethod.Name</p>
+    </div>
+</div>
+
+<a asp-action="Index" asp-controller="Home" class="btn btn-primary mt-3">Back to Home</a>

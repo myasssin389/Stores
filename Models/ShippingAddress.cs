@@ -18,7 +18,7 @@ public class ShippingAddress
     public string BuildingNumber { get; set; }
     [Required]
     [StringLength(10, MinimumLength = 1)]
-    public string AppartmentNumber { get; set; }
+    public string ApartmentNumber { get; set; }
     [StringLength(10)]
     public string? ZipCode { get; set; }
 }

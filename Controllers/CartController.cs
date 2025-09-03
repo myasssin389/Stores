@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Stores.Data;
 using Stores.Models;
+using Stores.ViewModels;
 
 namespace Stores.Controllers;
 
@@ -114,10 +115,16 @@ public class CartController : Controller
             .FirstOrDefaultAsync(c => c.UserId == userId);
 
         if (cart == null || !cart.CartProductMaps.Any())
-        {
             return RedirectToAction("Index", "Home");
-        }
+        
+        var paymentMethods = await _context.PaymentMethods.ToListAsync();
 
-        return View(cart);
+        var checkoutViewModel = new CheckoutViewModel
+        {
+            Cart = cart,
+            PaymentMethods = paymentMethods
+        };
+
+        return View(checkoutViewModel);
     }
 }

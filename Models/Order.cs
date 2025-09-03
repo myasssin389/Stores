@@ -18,8 +18,6 @@ public class Order
     [Required]
     public int ShippingAddressId { get; set; }
     public ShippingAddress ShippingAddress { get; set; }
-    public int? BillingAddressId { get; set; }
-    public BillingAddress BillingAddress { get; set; }
     public ICollection<OrderItem> OrderItems { get; set; }
     [Required]
     public int PaymentMethodId { get; set; }

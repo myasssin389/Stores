@@ -1,11 +1,11 @@
-@model Cart
+@model Stores.ViewModels.CheckoutViewModel
 
 <h2>Checkout</h2>
 
 <div class="checkout-summary container">
     <h4>Order Summary</h4>
     <hr/>
-    @foreach (var item in Model.CartProductMaps)
+    @foreach (var item in Model.Cart.CartProductMaps)
     {
         <div class="checkout-item col-6 col-md-4 col-lg-3 mb-4">
             <div class="checkout-item-inner d-flex align-items-center">
@@ -31,6 +31,35 @@
         </div>
     }
     <div class="total mt-4">
-        <strong>Total: @Model.getTotalAmount().ToString("C")</strong>
+        <strong>Total: @Model.Cart.getTotalAmount().ToString("C")</strong>
     </div>
 </div>
+
+<hr/>
+
+<h4>Shipping & Payment</h4>
+
+<form asp-action="PlaceOrder" asp-controller="Order" method="post">
+    <div class="mb-3">
+        <h5>Shipping Address</h5>
+        <input asp-for="ShippingAddress.City" class="form-control" placeholder="City" />
+        <input asp-for="ShippingAddress.StreetName" class="form-control mt-1" placeholder="Street Name" />
+        <input asp-for="ShippingAddress.StreetNumber" class="form-control mt-1" placeholder="Street Number" />
+        <input asp-for="ShippingAddress.BuildingNumber" class="form-control mt-1" placeholder="Building Number" />
+        <input asp-for="ShippingAddress.ApartmentNumber" class="form-control mt-1" placeholder="Apartment Number" />
+        <input asp-for="ShippingAddress.ZipCode" class="form-control mt-1" placeholder="Zip Code (Optional)" />
+    </div>
+
+    <div class="mb-3 mt-3">
+        <h5>Payment Method</h5>
+        <select asp-for="SelectedPaymentMethodId" class="form-select">
+            <option value="">Select Payment Method</option>
+            @foreach (var pm in Model.PaymentMethods)
+            {
+                <option value="@pm.Id">@pm.Name</option>
+            }
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-success">Place Order</button>
+</form>
