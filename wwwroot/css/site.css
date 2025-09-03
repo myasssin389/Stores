@@ -61,6 +61,7 @@ body::-webkit-scrollbar {
 .footer {
   background-color: #323a45;
   color: #f6f7f9 !important;
+  border-top: none !important;
   padding: 1rem 0;
   text-align: center;
   position: fixed !important;
@@ -262,6 +263,11 @@ body::-webkit-scrollbar {
   object-fit: cover;
   background-color: #f0f0f0;
   display: block;
+}
+
+.card {
+  border-top-left-radius: 9px;
+  border-top-right-radius: 9px;
 }
 
 .card-text-bg {
