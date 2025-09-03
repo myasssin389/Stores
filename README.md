@@ -37,4 +37,46 @@ Before running the application, ensure you have the following installed:
    git clone https://github.com/myasssin389/Stores.git
    cd Stores
    ```
-   
+2. **Configure Database Connection**
+
+   Open appsettings.json and update the connection string to point to your local database.
+
+3. **Apply Database Migrations**
+
+   ```
+   dotnet ef database update
+   ```
+
+4. **Run the Application**
+
+   ```
+   dotnet run
+   ```
+   Then navigate to https://localhost:5001 in your browser to view the application.
+
+## Usage
+Once the application is running:
+- Visit the homepage to view a list of store categories.
+- Click on a category to see the stores within it.
+- Select a store to browse its products.
+- Use the navigation menu to access other features like user authentication.
+
+## Contributing
+Contributions are welcome! To contribute:
+1. Fork the repository.
+2. Create a new branch:
+   ```
+   git checkout -b feature-name
+   ```
+3. Make your changes.
+4. Commit your changes:
+   ```
+   git commit -am "Add new feature"
+   ```
+5. Push to the branch:
+   ```
+   git push origin feature-name
+   ```
+6. Create a new Pull Request.
+
+Please ensure your code adheres to the project's coding standards and passes all tests.
