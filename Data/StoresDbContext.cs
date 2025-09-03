@@ -22,6 +22,7 @@ public class StoresDbContext : IdentityDbContext<ApplicationUser>
     {
         base.OnModelCreating(builder);
         builder.Entity<CartProductMap>().HasKey(cpm => new { cpm.ProductId, cpm.CartId });
+        builder.Entity<OrderItem>().HasKey(oi => new { oi.ProductId, oi.OrderId });
         builder.Entity<ApplicationUser>()
             .HasOne(a => a.Cart)
             .WithOne(c => c.User)
@@ -48,4 +49,14 @@ public class StoresDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Cart> Carts { get; set; }
     
     public DbSet<CartProductMap> CartProductMaps { get; set; }
+    
+    public DbSet<Order> Orders { get; set; }
+    
+    public DbSet<OrderItem> OrderItems { get; set; }
+    
+    public DbSet<ShippingAddress> ShippingAddresses { get; set; }
+    
+    public DbSet<BillingAddress> BillingAddresses { get; set; }
+    
+    public DbSet<PaymentMethod> PaymentMethods { get; set; }
 }
