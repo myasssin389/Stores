@@ -9,7 +9,7 @@ public class CheckoutViewModel
     [ValidateNever]
     public Cart Cart { get; set; }
 
-    public ShippingAddress ShippingAddress { get; set; } = new ShippingAddress();
+    public Address ShippingAddress { get; set; } = new Address();
 
     [Required]
     public int SelectedPaymentMethodId { get; set; }

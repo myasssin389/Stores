@@ -54,7 +54,7 @@ public class StoresDbContext : IdentityDbContext<ApplicationUser>
     
     public DbSet<OrderItem> OrderItems { get; set; }
     
-    public DbSet<ShippingAddress> ShippingAddresses { get; set; }
+    public DbSet<Address> ShippingAddresses { get; set; }
     
     public DbSet<PaymentMethod> PaymentMethods { get; set; }
 }

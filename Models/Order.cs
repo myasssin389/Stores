@@ -17,7 +17,7 @@ public class Order
     public ApplicationUser User { get; set; }
     [Required]
     public int ShippingAddressId { get; set; }
-    public ShippingAddress ShippingAddress { get; set; }
+    public Address ShippingAddress { get; set; }
     public ICollection<OrderItem> OrderItems { get; set; }
     [Required]
     public int PaymentMethodId { get; set; }

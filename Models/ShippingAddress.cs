@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Stores.Models;
 
-public class ShippingAddress
+public class Address
 {
     public int Id { get; set; }
     [Required]
