@@ -22,4 +22,7 @@ public class Order
     [Required]
     public int PaymentMethodId { get; set; }
     public PaymentMethod PaymentMethod { get; set; }
+    [Required]
+    public int StatusId { get; set; }
+    public OrderStatus Status { get; set; }
 }

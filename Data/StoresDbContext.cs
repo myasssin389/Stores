@@ -57,4 +57,6 @@ public class StoresDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Address> ShippingAddresses { get; set; }
     
     public DbSet<PaymentMethod> PaymentMethods { get; set; }
+    
+    public DbSet<OrderStatus> OrderStatuses { get; set; }
 }

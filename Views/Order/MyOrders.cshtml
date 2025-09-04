@@ -1,0 +1,31 @@
+@model IEnumerable<Stores.Models.Order>
+
+<h2>My Orders</h2>
+
+<div class="category-tabs">
+    <ul class="nav nav-pills justify-content-center mb-4">
+        <li class="nav-item">
+            <a class="nav-link category-tab active" href="#" data-category="all">All Orders</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link category-tab" href="#" data-category="Delivered">Delivered</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link category-tab" href="#" data-category="In Progress">In Progress</a>
+        </li>
+    </ul>
+</div>
+
+@foreach (var order in Model)
+{
+    <div class="order">
+        <h4>Order #@order.Id - @order.Date.ToShortDateString()</h4>
+        <ul>
+            @foreach (var item in order.OrderItems)
+            {
+                <li>@item.Product.Name x @item.Quantity</li>
+            }
+        </ul>
+        <p>Total: @order.Total.ToString("C")</p>
+    </div>
+}

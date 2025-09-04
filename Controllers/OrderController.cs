@@ -88,4 +88,17 @@ public class OrderController : Controller
 
         return View(order);
     }
+
+    public async Task<IActionResult> MyOrders()
+    {
+        var userId = _userManager.GetUserId(User);
+
+        var orders = await _context.Orders
+            .Where(o => o.UserId == userId)
+            .Include(o => o.OrderItems)
+            .ThenInclude(oi => oi.Product)
+            .ToListAsync();
+
+        return View(orders);
+    }
 }
