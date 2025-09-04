@@ -10,6 +10,9 @@ public class CheckoutViewModel
     public Cart Cart { get; set; }
 
     public Address ShippingAddress { get; set; } = new Address();
+    
+    [ValidateNever]
+    public Address BillingAddress { get; set; } = new Address();
 
     [Required]
     public int SelectedPaymentMethodId { get; set; }

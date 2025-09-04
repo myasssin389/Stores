@@ -34,13 +34,6 @@ public class OrderController : Controller
             return RedirectToAction("Index", "Home");
         }
         
-        var errors = ModelState.Values.SelectMany(v => v.Errors);
-        foreach (var error in errors)
-        {
-            Console.WriteLine(error.ErrorMessage);
-        }
-
-        
         if (!ModelState.IsValid)
         {
             model.PaymentMethods = await _context.PaymentMethods.ToListAsync();
@@ -48,12 +41,21 @@ public class OrderController : Controller
             return View("~/Views/Cart/Checkout.cshtml", model);
         }
         
-        _context.ShippingAddresses.Add(model.ShippingAddress);
+        var shippingAddress = await GetOrCreateAddressAsync(model.ShippingAddress);
+        Address billingAddress = null;
+
+        if (model.SelectedPaymentMethodId == 3) // Cash on Delivery
+        {
+            billingAddress = model.BillingAddress == null 
+                ? shippingAddress 
+                : await GetOrCreateAddressAsync(model.BillingAddress);
+        }
 
         var order = new Order
         {
             UserId = userId,
-            ShippingAddress = model.ShippingAddress,
+            ShippingAddress = shippingAddress,
+            BillingAddress = billingAddress,
             PaymentMethodId = model.SelectedPaymentMethodId,
             Date = DateTime.Now,
             OrderItems = cart.CartProductMaps.Select(cp => new OrderItem
@@ -61,10 +63,9 @@ public class OrderController : Controller
                 ProductId = cp.ProductId,
                 Quantity = cp.Quantity
             }).ToList(),
-            StatusId = 1,
+            StatusId = 1, // Pending
             Total = cart.getTotalAmount()
         };
-
         
         _context.Orders.Add(order);
         
@@ -75,6 +76,27 @@ public class OrderController : Controller
         return RedirectToAction("OrderConfirmation", new { orderId = order.Id });
     }
 
+    public async Task<Address> GetOrCreateAddressAsync(Address input)
+    {
+        if (input == null)
+            return null;
+        
+        var addresses = await _context.Addresses.ToListAsync();
+        var existingAddress = addresses.FirstOrDefault(a =>
+            a.City?.Trim().ToLower() == input.City?.Trim().ToLower() &&
+            a.StreetName?.Trim().ToLower() == input.StreetName?.Trim().ToLower() &&
+            a.StreetNumber?.Trim() == input.StreetNumber?.Trim() &&
+            a.BuildingNumber?.Trim() == input.BuildingNumber?.Trim() &&
+            a.ApartmentNumber?.Trim() == input.ApartmentNumber?.Trim());
+
+
+        if (existingAddress != null)
+            return existingAddress;
+        
+        _context.Addresses.Add(input);
+        return input;
+    }
+    
     public async Task<IActionResult> OrderConfirmation(int? orderId)
     {
         var userId = _userManager.GetUserId(User);

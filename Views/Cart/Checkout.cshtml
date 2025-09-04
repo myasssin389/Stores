@@ -52,7 +52,7 @@
 
     <div class="mb-3 mt-3">
         <h5>Payment Method</h5>
-        <select asp-for="SelectedPaymentMethodId" class="form-select">
+        <select asp-for="SelectedPaymentMethodId" class="form-select" id="paymentMethod">
             <option value="">Select Payment Method</option>
             @foreach (var pm in Model.PaymentMethods)
             {
@@ -61,5 +61,24 @@
         </select>
     </div>
 
+    <!-- Checkbox (hidden by default, shown if COD selected) -->
+    <div id="billingCheckboxContainer" class="form-check mb-3" style="display:none;">
+        <input type="checkbox" class="form-check-input" id="useDifferentBilling" />
+        <label for="useDifferentBilling" class="form-check-label">Use a different billing address</label>
+    </div>
+
+    <!-- Billing Address (hidden by default) -->
+    <div id="billingAddressContainer" style="display:none;">
+        <h5>Billing Address</h5>
+        <input asp-for="BillingAddress.City" class="form-control" placeholder="City" />
+        <input asp-for="BillingAddress.StreetName" class="form-control mt-1" placeholder="Street Name" />
+        <input asp-for="BillingAddress.StreetNumber" class="form-control mt-1" placeholder="Street Number" />
+        <input asp-for="BillingAddress.BuildingNumber" class="form-control mt-1" placeholder="Building Number" />
+        <input asp-for="BillingAddress.ApartmentNumber" class="form-control mt-1" placeholder="Apartment Number" />
+        <input asp-for="BillingAddress.ZipCode" class="form-control mt-1" placeholder="Zip Code (Optional)" />
+    </div>
+
     <button type="submit" class="btn btn-success">Place Order</button>
 </form>
+
+<script src="~/js/site.js"></script>

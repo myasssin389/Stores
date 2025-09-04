@@ -197,7 +197,7 @@ namespace Stores.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ShippingAddresses");
+                    b.ToTable("Addresses");
                 });
 
             modelBuilder.Entity("Stores.Models.ApplicationUser", b =>
