@@ -396,3 +396,82 @@ body::-webkit-scrollbar {
   font-size: 0.9rem;
   color: #666;
 }
+
+/* MyOrders.cshtml styles */
+
+.order-options-tabs {
+  padding: 20px;
+  text-align: center;
+}
+
+.option-tab {
+  background-color: #3f6184;
+  color: #f6f7f9;
+  border: none;
+  margin: 0 5px;
+  border-radius: 25px;
+  padding: 10px 20px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.option-tab:hover {
+  background-color: #344d6a;
+  color: #fff;
+  text-decoration: none;
+}
+
+.option-tab.active {
+  background-color: #5faeb6 !important;
+  color: #323a45;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  font-weight: 600;
+}
+
+.orders-container {
+  padding: 0 20px;
+}
+
+.order-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0px 2px 6px rgba(0,0,0,0.05);
+}
+
+/* Status colors */
+.order-card[data-status="Pending"] {
+  border-left: 5px solid #ffc107;
+}
+
+.order-card[data-status="Confirmed"],
+.order-card[data-status="Shipped"] {
+  border-left: 5px solid #0dcaf0;
+}
+
+.order-card[data-status="Delivered"] {
+  border-left: 5px solid #28a745;
+}
+
+.order-card[data-status="Cancelled"] {
+  border-left: 5px solid #dc3545;
+}
+
+.order-card ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 10px;
+}
+
+.order-card ul li {
+  padding: 5px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.order-card ul li:last-child {
+  border-bottom: none;
+}

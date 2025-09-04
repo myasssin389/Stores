@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using Microsoft.EntityFrameworkCore;
 using Stores.Data;
 using Stores.Models;
@@ -59,6 +61,7 @@ public class OrderController : Controller
                 ProductId = cp.ProductId,
                 Quantity = cp.Quantity
             }).ToList(),
+            StatusId = 1,
             Total = cart.getTotalAmount()
         };
 
@@ -97,8 +100,32 @@ public class OrderController : Controller
             .Where(o => o.UserId == userId)
             .Include(o => o.OrderItems)
             .ThenInclude(oi => oi.Product)
+            .Include(o => o.ShippingAddress)
+            .Include(o => o.PaymentMethod)
+            .Include(o => o.Status)
             .ToListAsync();
 
         return View(orders);
+    }
+
+    public async Task<IActionResult> CancelOrder(int? orderId)
+    {
+        var order = await _context.Orders
+            .Include(o => o.Status)
+            .FirstOrDefaultAsync(o => o.Id == orderId);
+        
+        if (order == null)
+            return RedirectToAction("Index", "Home");
+
+        // Add status validation
+        if (order.StatusId != 1 && order.StatusId != 2) // Only allow cancel for Pending/Confirmed
+            return RedirectToAction("MyOrders");
+        
+        order.StatusId = 5;
+        
+        _context.Orders.Update(order);
+        await _context.SaveChangesAsync();
+
+        return RedirectToAction("MyOrders");
     }
 }

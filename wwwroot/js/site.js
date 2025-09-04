@@ -1,16 +1,6 @@
 ﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
 // for details on configuring this project to bundle and minify static web assets.
 
-var toggler = document.getElementsByClassName("caret");
-var i;
-
-for (i = 0; i < toggler.length; i++) {
-    toggler[i].addEventListener("click", function() {
-        this.parentElement.querySelector(".nested").classList.toggle("active");
-        this.classList.toggle("caret-down");
-    });
-}
-
 document.addEventListener('DOMContentLoaded', function() {
     const categoryTabs = document.querySelectorAll('.category-tab');
     const categoryStores = document.querySelectorAll('.category-stores');
@@ -55,10 +45,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-document.querySelector('.shop-cart-toggler').addEventListener('click', function() {
-    const cartDropdown = document.getElementById('navbarShopCartDropdown');
-    cartDropdown.classList.toggle('show');
-});
+const cartToggler = document.querySelector('.shop-cart-toggler');
+if (cartToggler) {
+    cartToggler.addEventListener('click', function() {
+        const cartDropdown = document.getElementById('navbarShopCartDropdown');
+        cartDropdown.classList.toggle('show');
+    });
+}
 
 function checkMax(input, max) {
     if (input > max) {
@@ -66,3 +59,52 @@ function checkMax(input, max) {
         input.value = max;
     }
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+    const tabs = document.querySelectorAll('.option-tab');
+    const orders = document.querySelectorAll('.order-card');
+
+    // Define status groups
+    const statusGroups = {
+        all: ["Pending", "Confirmed", "Shipped", "Delivered", "Cancelled"],
+        delivered: ["Delivered"],
+        pending: ["Pending"],
+        shipped: ["Shipped"],
+        cancelled: ["Cancelled"],
+        inprogress: ["Pending", "Confirmed", "Shipped"] // grouped under one tab
+    };
+
+    // Show all orders by default
+    showOrdersByStatuses(statusGroups.all);
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            // Remove active from all tabs
+            tabs.forEach(t => t.classList.remove('active'));
+
+            // Add active to clicked tab
+            this.classList.add('active');
+
+            const selectedKey = this.getAttribute('data-status').toLowerCase();
+
+            if (statusGroups[selectedKey]) {
+                showOrdersByStatuses(statusGroups[selectedKey]);
+            } else {
+                console.warn("No group found for:", selectedKey);
+            }
+        });
+    });
+
+    function showOrdersByStatuses(statusList) {
+        orders.forEach(order => {
+            const orderStatus = order.getAttribute('data-status');
+            if (statusList.includes(orderStatus)) {
+                order.style.display = 'block';
+            } else {
+                order.style.display = 'none';
+            }
+        });
+    }
+});

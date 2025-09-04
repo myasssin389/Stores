@@ -2,30 +2,57 @@
 
 <h2>My Orders</h2>
 
-<div class="category-tabs">
+<div class="order-options-tabs">
     <ul class="nav nav-pills justify-content-center mb-4">
         <li class="nav-item">
-            <a class="nav-link category-tab active" href="#" data-category="all">All Orders</a>
+            <a class="nav-link option-tab active" href="#" data-status="all">All Orders</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link category-tab" href="#" data-category="Delivered">Delivered</a>
+            <a class="nav-link option-tab" href="#" data-status="inprogress">In Progress</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link category-tab" href="#" data-category="In Progress">In Progress</a>
+            <a class="nav-link option-tab" href="#" data-status="delivered">Delivered</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link option-tab" href="#" data-status="cancelled">Cancelled</a>
         </li>
     </ul>
 </div>
 
-@foreach (var order in Model)
-{
-    <div class="order">
-        <h4>Order #@order.Id - @order.Date.ToShortDateString()</h4>
-        <ul>
-            @foreach (var item in order.OrderItems)
+<div class="orders-container">
+    @foreach (var order in Model)
+    {
+        <div class="order-card mb-4 p-3 border rounded" data-status="@order.Status.Name">
+            @if (order.Status.Name == "Cancelled")
             {
-                <li>@item.Product.Name x @item.Quantity</li>
+                <h5 style="text-decoration: line-through">Order #@order.Id - @order.Status.Name</h5>
             }
-        </ul>
-        <p>Total: @order.Total.ToString("C")</p>
-    </div>
-}
+            else
+            {
+                <h5>Order #@order.Id - @order.Status.Name</h5>
+            }
+            <p><strong>Date:</strong> @order.Date.ToString("g")</p>
+            <p><strong>Total:</strong> @order.Total.ToString("C")</p>
+
+            <ul>
+                @foreach (var item in order.OrderItems)
+                {
+                    <li>@item.Product.Name × @item.Quantity</li>
+                }
+            </ul>
+
+            @if (order.Status.Name == "Pending" || order.Status.Name == "Confirmed")
+            {
+                <form asp-action="CancelOrder" asp-controller="Order" method="post" class="d-inline">
+                    <input type="hidden" name="orderId" value="@order.Id"/>
+                    <button type="submit" class="btn btn-danger btn-sm"
+                            onclick="return confirm('Are you sure you want to cancel this order?')">
+                        Cancel Order
+                    </button>
+                </form>
+            }
+        </div>
+    }
+</div>
+
+<script src="~/js/site.js"></script>
