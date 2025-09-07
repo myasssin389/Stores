@@ -475,3 +475,30 @@ body::-webkit-scrollbar {
 .order-card ul li:last-child {
   border-bottom: none;
 }
+
+/* Register.cshtml/Login.cshtml styles */
+
+.register-btn, .login-btn {
+  padding: 7px 20px;
+  font-size: 17px;
+  border-radius: 9px;
+  background-color: #2ecc71;
+  color: #fff;
+  border: none;
+  transition: 0.25s ease-in-out;
+}
+
+.register-btn:hover, .login-btn:hover {
+  background-color: #27ae60;
+  transform: scale(1.03);
+}
+
+/* Manage Account styles */
+
+.manage-account-nav > li > a {
+  color: #3f6184;
+}
+
+.manage-account-nav > li > a:hover {
+  color: #344d6a;
+}
