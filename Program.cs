@@ -18,9 +18,16 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
         options.Password.RequireDigit = true;
         options.Password.RequiredLength = 6;
     })
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<StoresDbContext>();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    await RoleSeeder.SeedRolesAsync(scope.ServiceProvider);
+    await RoleSeeder.CreateDefaultAdminAsync(scope.ServiceProvider);
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

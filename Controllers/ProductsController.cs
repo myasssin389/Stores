@@ -15,6 +15,7 @@ public class ProductsController : Controller
         _context = context;
     }
     
+    [Authorize(Roles = "StoreAdmin")]
     public IActionResult Create()
     {
         var viewModel = new ProductFormViewModel()
