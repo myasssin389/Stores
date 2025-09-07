@@ -493,6 +493,10 @@ body::-webkit-scrollbar {
   transform: scale(1.03);
 }
 
+.login-btn {
+  margin-bottom: 15px;
+}
+
 /* Manage Account styles */
 
 .manage-account-nav > li > a {
