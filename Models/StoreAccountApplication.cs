@@ -35,9 +35,8 @@ public class StoreAccountApplication
     [Required]
     public int StoreCategoryId { get; set; }
     
-    public byte VerificationStatusId { get; set; }
-    
     [Required]
+    public byte VerificationStatusId { get; set; }
     public VerificationStatus VerificationStatus { get; set; }
     
     [Required]
