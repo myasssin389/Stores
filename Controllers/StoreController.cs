@@ -6,16 +6,15 @@ using Stores.ViewModels;
 
 namespace Stores.Controllers;
 
-public class StoresController : Controller
+public class StoreController : Controller
 {
     private StoresDbContext _context;
 
-    public StoresController(StoresDbContext context)
+    public StoreController(StoresDbContext context)
     {
         _context = context;
     }
 
-    [Authorize(Roles = "Admin")]
     public IActionResult Create()
     {
         var viewModel = new StoreFormViewModel()

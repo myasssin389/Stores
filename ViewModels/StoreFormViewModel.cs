@@ -14,10 +14,20 @@ public class StoreFormViewModel
     
     public string City { get; set; }
     
+    [Required]
     public string Phone { get; set; }
     
     [Required]
+    public string Email { get; set; }
+    
+    [Required]
     public int Category { get; set; }
+    
+    [Required]
+    public string TaxRegistrationNumber { get; set; }
+    
+    [Required]
+    public string CommercialRegistrationNumber { get; set; }
     
     [ValidateNever]
     public IEnumerable<Category> Categories { get; set; }

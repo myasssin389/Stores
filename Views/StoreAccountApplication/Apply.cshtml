@@ -1,12 +1,12 @@
 @model Stores.ViewModels.StoreFormViewModel
 
 @{
-    ViewData["title"] = "Create";
+    ViewData["title"] = "Apply";
 }
 
 <h2>Apply for a Store Account</h2>
 
-@using (Html.BeginForm("Apply", "Store"))
+@using (Html.BeginForm("Apply", "StoreAccountApplication"))
 {
     @Html.AntiForgeryToken()
     <hr/>

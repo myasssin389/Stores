@@ -2,38 +2,38 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Stores.Models;
 
-public class Store
+public class StoreAccountApplication
 {
     public int Id { get; set; }
     
     [Required]
     [MaxLength(255)]
-    public string Name { get; set; }
+    public string StoreName { get; set; }
     
     [Required]
     [MaxLength(500)]
-    public string Address { get; set; }
+    public string StoreAddress { get; set; }
     
     [MaxLength(100)]
-    public string? City { get; set; }
+    public string? StoreCity { get; set; }
     
     [Required]
     [MaxLength(11)]
-    public string? Phone { get; set; }
+    public string? StorePhone { get; set; }
     
     [Required]
     [MaxLength(255)]
-    public string Email { get; set; }
+    public string StoreEmail { get; set; }
     
     [Required]
     public string StoreAdminId { get; set; }
     
     public ApplicationUser? StoreAdmin { get; set; }
     
-    public Category Category { get; set; }
+    public Category StoreCategory { get; set; }
     
     [Required]
-    public int CategoryId { get; set; }
+    public int StoreCategoryId { get; set; }
     
     public byte VerificationStatusId { get; set; }
     
@@ -42,11 +42,9 @@ public class Store
     
     [Required]
     [MaxLength(18)]
-    public string TaxRegistrationNumber { get; set; }
+    public string StoreTaxRegistrationNumber { get; set; }
     
     [Required]
     [MaxLength(30)]
-    public string CommercialRegistrationNumber { get; set; }
-    
-    public ICollection<Product> Products { get; set; }
+    public string StoreCommercialRegistrationNumber { get; set; }
 }

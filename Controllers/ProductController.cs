@@ -7,12 +7,12 @@ using Stores.ViewModels;
 
 namespace Stores.Controllers;
 
-public class ProductsController : Controller
+public class ProductController : Controller
 {
     private StoresDbContext _context;
     private UserManager<ApplicationUser> _userManager;
 
-    public ProductsController(StoresDbContext context, UserManager<ApplicationUser> userManager)
+    public ProductController(StoresDbContext context, UserManager<ApplicationUser> userManager)
     {
         _context = context;
         _userManager = userManager;

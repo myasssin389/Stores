@@ -103,7 +103,7 @@ public class OrderController : Controller
         
         var order = await _context.Orders
             .Include(o => o.OrderItems)
-            .ThenInclude(oi => oi.Product)
+                .ThenInclude(oi => oi.Product)
             .Include(o => o.ShippingAddress)
             .Include(o => o.PaymentMethod)
             .FirstOrDefaultAsync(o => o.Id == orderId && o.UserId == userId);

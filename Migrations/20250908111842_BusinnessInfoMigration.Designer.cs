@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Stores.Data;
 
@@ -11,9 +12,11 @@ using Stores.Data;
 namespace Stores.Migrations
 {
     [DbContext(typeof(StoresDbContext))]
-    partial class StoresDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250908111842_BusinnessInfoMigration")]
+    partial class BusinnessInfoMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -528,69 +531,6 @@ namespace Stores.Migrations
                     b.ToTable("Stores");
                 });
 
-            modelBuilder.Entity("Stores.Models.StoreAccountApplication", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("StoreAddress")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("varchar(500)");
-
-                    b.Property<string>("StoreAdminId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<int>("StoreCategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("StoreCity")
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
-
-                    b.Property<string>("StoreCommercialRegistrationNumber")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("varchar(30)");
-
-                    b.Property<string>("StoreEmail")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("StoreName")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("StorePhone")
-                        .IsRequired()
-                        .HasMaxLength(11)
-                        .HasColumnType("varchar(11)");
-
-                    b.Property<string>("StoreTaxRegistrationNumber")
-                        .IsRequired()
-                        .HasMaxLength(18)
-                        .HasColumnType("varchar(18)");
-
-                    b.Property<byte>("VerificationStatusId")
-                        .HasColumnType("tinyint unsigned");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("StoreAdminId");
-
-                    b.HasIndex("StoreCategoryId");
-
-                    b.HasIndex("VerificationStatusId");
-
-                    b.ToTable("StoreAccountApplications");
-                });
-
             modelBuilder.Entity("Stores.Models.VerificationStatus", b =>
                 {
                     b.Property<byte>("Id")
@@ -785,33 +725,6 @@ namespace Stores.Migrations
                     b.Navigation("Category");
 
                     b.Navigation("StoreAdmin");
-
-                    b.Navigation("VerificationStatus");
-                });
-
-            modelBuilder.Entity("Stores.Models.StoreAccountApplication", b =>
-                {
-                    b.HasOne("Stores.Models.ApplicationUser", "StoreAdmin")
-                        .WithMany()
-                        .HasForeignKey("StoreAdminId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Stores.Models.Category", "StoreCategory")
-                        .WithMany()
-                        .HasForeignKey("StoreCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Stores.Models.VerificationStatus", "VerificationStatus")
-                        .WithMany()
-                        .HasForeignKey("VerificationStatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("StoreAdmin");
-
-                    b.Navigation("StoreCategory");
 
                     b.Navigation("VerificationStatus");
                 });
