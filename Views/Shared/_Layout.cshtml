@@ -38,10 +38,10 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav">
-                    @if (User.IsInRole("Admin"))
+                    @if (User.IsInRole("Customer"))
                     {
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Stores" asp-action="Create">Add a Store</a>
+                            <a class="nav-link" asp-area="" asp-controller="Stores" asp-action="Create">Apply for a Store Account</a>
                         </li>
                     }
                     @if (User.IsInRole("StoreAdmin"))

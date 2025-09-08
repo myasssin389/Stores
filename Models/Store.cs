@@ -25,5 +25,10 @@ public class Store
     [Required]
     public int CategoryId { get; set; }
     
+    public byte VerificationStatusId { get; set; }
+    
+    [Required]
+    public VerificationStatus VerificationStatus { get; set; }
+    
     public ICollection<Product> Products { get; set; }
 }

@@ -4,7 +4,7 @@
     ViewData["title"] = "Create";
 }
 
-<h2>Add a Store</h2>
+<h2>Apply for a Store Admin Account</h2>
 
 @using (Html.BeginForm("Create", "Stores"))
 {
@@ -36,5 +36,5 @@
             new {@class = "form-control"})
         @Html.ValidationMessageFor(m => m.Category)
     </div>
-    <button type="submit" class="btn btn-primary save-btn">Save</button>
+    <button type="submit" class="btn btn-primary save-btn">Apply</button>
 }

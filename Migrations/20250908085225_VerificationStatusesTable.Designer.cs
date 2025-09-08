@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Stores.Data;
 
@@ -11,9 +12,11 @@ using Stores.Data;
 namespace Stores.Migrations
 {
     [DbContext(typeof(StoresDbContext))]
-    partial class StoresDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250908085225_VerificationStatusesTable")]
+    partial class VerificationStatusesTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -504,16 +507,11 @@ namespace Stores.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(255)");
 
-                    b.Property<byte>("VerificationStatusId")
-                        .HasColumnType("tinyint unsigned");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
 
                     b.HasIndex("StoreAdminId");
-
-                    b.HasIndex("VerificationStatusId");
 
                     b.ToTable("Stores");
                 });
@@ -703,17 +701,9 @@ namespace Stores.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Stores.Models.VerificationStatus", "VerificationStatus")
-                        .WithMany()
-                        .HasForeignKey("VerificationStatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Category");
 
                     b.Navigation("StoreAdmin");
-
-                    b.Navigation("VerificationStatus");
                 });
 
             modelBuilder.Entity("Stores.Models.ApplicationUser", b =>
