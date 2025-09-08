@@ -13,6 +13,4 @@ public class ProductFormViewModel
     public decimal Price { get; set; }
     public int Quantity { get; set; }
     public string PhotoLink { get; set; }
-    [Required]
-    public int Store { get; set; }
 }
