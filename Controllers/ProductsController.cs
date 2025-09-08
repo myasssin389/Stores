@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Stores.Data;
 using Stores.Models;
@@ -9,19 +10,18 @@ namespace Stores.Controllers;
 public class ProductsController : Controller
 {
     private StoresDbContext _context;
+    private UserManager<ApplicationUser> _userManager;
 
-    public ProductsController(StoresDbContext context)
+    public ProductsController(StoresDbContext context, UserManager<ApplicationUser> userManager)
     {
         _context = context;
+        _userManager = userManager;
     }
     
     [Authorize(Roles = "StoreAdmin")]
     public IActionResult Create()
     {
-        var viewModel = new ProductFormViewModel()
-        {
-            Stores = _context.Stores.ToList()
-        };
+        var viewModel = new ProductFormViewModel();
         return View(viewModel);
     }
 
@@ -30,11 +30,16 @@ public class ProductsController : Controller
     [ValidateAntiForgeryToken]
     public IActionResult Create(ProductFormViewModel viewModel)
     {
-        viewModel.Stores = _context.Stores.ToList();
         if (!ModelState.IsValid)
         {
             return View(viewModel);
         }
+        
+        var userId = _userManager.GetUserId(User);
+        
+        var store = _context.Stores.SingleOrDefault(s => s.StoreAdminId == userId);
+        if (store == null)
+            return Unauthorized();
 
         var product = new Product()
         {
@@ -43,7 +48,7 @@ public class ProductsController : Controller
             Price = viewModel.Price,
             Quantity = viewModel.Quantity,
             PhotoLink = viewModel.PhotoLink,
-            StoreId = viewModel.Store
+            StoreId = store.Id
         };
         
         _context.Products.Add(product);

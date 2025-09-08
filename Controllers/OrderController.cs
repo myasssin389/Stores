@@ -134,16 +134,21 @@ public class OrderController : Controller
     {
         var order = await _context.Orders
             .Include(o => o.Status)
+            .Include(o => o.OrderItems)
+                .ThenInclude(oi => oi.Product)
             .FirstOrDefaultAsync(o => o.Id == orderId);
         
         if (order == null)
             return RedirectToAction("Index", "Home");
 
-        // Add status validation
-        if (order.StatusId != 1 && order.StatusId != 2) // Only allow cancel for Pending/Confirmed
+        if (order.StatusId != 1 && order.StatusId != 2)
             return RedirectToAction("MyOrders");
         
         order.StatusId = 5;
+        foreach (var item in order.OrderItems)
+        {
+            item.Product.Quantity += item.Quantity;
+        }
         
         _context.Orders.Update(order);
         await _context.SaveChangesAsync();

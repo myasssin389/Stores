@@ -15,6 +15,4 @@ public class ProductFormViewModel
     public string PhotoLink { get; set; }
     [Required]
     public int Store { get; set; }
-    [ValidateNever]
-    public IEnumerable<Store> Stores { get; set; }
 }
