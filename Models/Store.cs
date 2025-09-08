@@ -35,11 +35,6 @@ public class Store
     [Required]
     public int CategoryId { get; set; }
     
-    public byte VerificationStatusId { get; set; }
-    
-    [Required]
-    public VerificationStatus VerificationStatus { get; set; }
-    
     [Required]
     [MaxLength(18)]
     public string TaxRegistrationNumber { get; set; }

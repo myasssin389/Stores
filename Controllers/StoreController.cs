@@ -23,28 +23,31 @@ public class StoreController : Controller
         };
         return View(viewModel);
     }
-    
-    [Authorize]
+
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult Create(StoreFormViewModel viewModel)
+    public IActionResult Create(int applicationId)
     {
-        viewModel.Categories = _context.Categories.ToList();
-        if (!ModelState.IsValid)
-        {
-            return View(viewModel);
-        }
+        var application = _context.StoreAccountApplications.Find(applicationId);
+        if (application == null || application.VerificationStatusId != 1)
+            return BadRequest("Application not found or already processed.");
 
         var store = new Store
         {
-            Name = viewModel.Name,
-            Address = viewModel.Address,
-            City = viewModel.City,
-            Phone = viewModel.Phone,
-            CategoryId = viewModel.Category
+            Name = application.StoreName,
+            Address = application.StoreAddress,
+            City = application.StoreCity,
+            Phone = application.StorePhone,
+            Email = application.StoreEmail,
+            StoreAdminId = application.StoreAdminId,
+            CategoryId = application.StoreCategoryId,
+            TaxRegistrationNumber = application.StoreTaxRegistrationNumber,
+            CommercialRegistrationNumber = application.StoreCommercialRegistrationNumber
         };
         
         _context.Stores.Add(store);
+        application.VerificationStatusId = 2;
         _context.SaveChanges();
         
         return RedirectToAction("Index", "Home");
