@@ -17,8 +17,18 @@ public class Store
     [MaxLength(100)]
     public string? City { get; set; }
     
+    [Required]
     [MaxLength(11)]
     public string? Phone { get; set; }
+    
+    [Required]
+    [MaxLength(255)]
+    public string? Email { get; set; }
+    
+    [Required]
+    public string StoreAdminId { get; set; }
+    
+    public ApplicationUser? StoreAdmin { get; set; }
     
     public Category Category { get; set; }
     
