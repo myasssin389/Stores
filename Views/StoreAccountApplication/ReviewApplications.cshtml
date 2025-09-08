@@ -1,18 +1,53 @@
-@model TModel
+@model List<Stores.Models.StoreAccountApplication>
 
-@{
-    Layout = null;
-}
+<h2>Applications</h2>
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <title>title</title>
-</head>
-<body>
-<div>
-      
+<div class="applications-container">
+    @foreach (var application in Model)
+    {
+        <div class="application-card mb-4 p-3 border rounded">
+            @if (application.VerificationStatusId == 1)
+            {
+                <h4>Application #@application.Id - Store Name: @application.StoreName</h4>
+                
+                <hr/>
+                
+                <h6 style="text-decoration: underline"><strong>Business Info:</strong></h6>
+                
+                <p><strong>Category:</strong> @application.StoreCategory.Name</p>
+                <p><strong>Address:</strong> @application.StoreAddress</p>
+                <p><strong>City:</strong> @application.StoreCity</p>
+                <p><strong>Tax Registration Number (TRN):</strong> @application.StoreTaxRegistrationNumber</p>
+                <p><strong>Commercial Registration Number (CRN):</strong> @application.StoreCommercialRegistrationNumber</p>
+                
+                <hr/>
+                
+                <h6 style="text-decoration: underline"><strong>Contact Info:</strong></h6>
+                
+                <p><strong>Phone:</strong> @application.StorePhone</p>
+                <p><strong>Email:</strong> @application.StoreEmail</p>
+                
+                <form asp-action="Create" asp-controller="Store" method="post" class="d-inline">
+                    <input type="hidden" name="applicationId" value="@application.Id"/>
+                    <button
+                        type="submit"
+                        class="approve-application-btn btn btn-primary btn-sm"
+                        onclick="return confirm('Are you sure about approving this application?')">
+                        Approve
+                    </button>
+                </form>
+                <form asp-action="Reject" asp-controller="Store" method="post" class="d-inline">
+                    <input type="hidden" name="applicationId" value="@application.Id"/>
+                    <button
+                        type="submit"
+                        class="reject-application-btn btn btn-danger btn-sm"
+                        onclick="return confirm('Are you sure about rejecting this application?')">
+                        Reject
+                    </button>
+                </form>
+            }
+        </div>
+    }
 </div>
-</body>
-</html>
+
+<script src="~/js/site.js"></script>

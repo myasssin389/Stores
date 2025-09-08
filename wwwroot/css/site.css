@@ -247,6 +247,34 @@ body::-webkit-scrollbar {
   transform: scale(1.03);
 }
 
+.approve-application-btn {
+  border-radius: 9px;
+  background-color: #2ecc71;
+  color: #fff;
+  border: none;
+  transition: 0.25s ease-in-out;
+  margin-right: 10px;
+}
+
+.approve-application-btn:hover {
+  background-color: #27ae60;
+  transform: scale(1.03);
+}
+
+.reject-application-btn {
+  border-radius: 9px;
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  transition: 0.25s ease-in-out;
+  margin-right: 10px;
+}
+
+.reject-application-btn:hover {
+  background-color: #c82333;
+  transform: scale(1.03);
+}
+
 .navbar {
   margin-bottom: 20px;
 }

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Stores.Data;
 using Stores.Models;
 using Stores.ViewModels;
@@ -69,5 +70,16 @@ public class StoreAccountApplicationController : Controller
             return RedirectToAction("Index", "Home");
         
         return View(application);
+    }
+
+    public IActionResult ReviewApplications()
+    {
+        var applications = _context.StoreAccountApplications
+            .Include(saa => saa.StoreCategory)
+            .Include(saa => saa.StoreAdmin)
+            .Include(saa => saa.VerificationStatus)
+            .ToList();
+        
+        return View(applications);
     }
 }
