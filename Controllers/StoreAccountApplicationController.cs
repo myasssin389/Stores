@@ -50,6 +50,7 @@ public class StoreAccountApplicationController : Controller
             VerificationStatusId = 1,
             StoreTaxRegistrationNumber = viewModel.TaxRegistrationNumber,
             StoreCommercialRegistrationNumber = viewModel.CommercialRegistrationNumber,
+            AppliedAt = DateTime.Now
         };
         
         _context.StoreAccountApplications.Add(storeAccountApplication);

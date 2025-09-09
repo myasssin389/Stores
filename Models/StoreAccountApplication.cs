@@ -50,4 +50,7 @@ public class StoreAccountApplication
 
     [Column(TypeName = "Text")]
     public string? Feedback { get; set; }
+    
+    [Required]
+    public DateTime AppliedAt { get; set; }
 }
