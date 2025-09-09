@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Stores.Models;
 
@@ -46,4 +47,7 @@ public class StoreAccountApplication
     [Required]
     [MaxLength(30)]
     public string StoreCommercialRegistrationNumber { get; set; }
+
+    [Column(TypeName = "Text")]
+    public string? Feedback { get; set; }
 }

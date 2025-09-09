@@ -6,15 +6,19 @@
 @inject StoresDbContext _context
 
 @{
-    Cart userCart = null;
+    bool hasApplication = false;
 
     if (SignInManager.IsSignedIn(User))
     {
         var userId = UserManager.GetUserId(User);
-        userCart = _context.Carts
-            .Include(c => c.CartProductMaps)
-            .ThenInclude(cp => cp.Product)
-            .FirstOrDefault(c => c.UserId == userId);
+
+        var application = _context.StoreAccountApplications
+            .FirstOrDefault(a => a.StoreAdminId == userId);
+
+        if (application != null)
+        {
+            hasApplication = true;
+        }
     }
 }
 
@@ -63,13 +67,25 @@
                     @if (User.IsInRole("Customer"))
                     {
                         <li class="nav-item">
-                            <a class="nav-link"
-                               asp-area=""
-                               asp-controller="StoreAccountApplication"
-                               asp-action="Apply">
-                                Apply for a Store Account
-                            </a>
+                            @if (!hasApplication)
+                            {
+                                <a class="nav-link"
+                                   asp-controller="StoreAccountApplication"
+                                   asp-action="Apply">
+                                    Apply for a Store Account
+                                </a>
+                            }
+                            else
+                            {
+                                <a class="nav-link"
+                                   asp-controller="StoreAccountApplication"
+                                   asp-action="Details"
+                                   asp-route-userId="@UserManager.GetUserId(User)">
+                                    View My Application
+                                </a>
+                            }
                         </li>
+                        
                     }
                     @if (User.IsInRole("StoreAdmin"))
                     {

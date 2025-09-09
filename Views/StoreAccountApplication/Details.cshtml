@@ -1,0 +1,49 @@
+@model Stores.Models.StoreAccountApplication
+
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h3>Store Account Application #@Model.Id</h3>
+            <p class="mb-0"><strong>Status:</strong> 
+                @if (Model.VerificationStatusId == 2)
+                {
+                    <span class="badge bg-success">@Model.VerificationStatus.Name</span>
+                }
+                else if (Model.VerificationStatusId == 3)
+                {
+                    <span class="badge bg-danger">@Model.VerificationStatus.Name</span>
+                }
+                else
+                {
+                    <span class="badge bg-warning text-dark">@Model.VerificationStatus.Name</span>
+                }
+            </p>
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Business Information</h5>
+            <p><strong>Store Name:</strong> @Model.StoreName</p>
+            <p><strong>Category:</strong> @(Model.StoreCategory?.Name ?? "Not assigned")</p>
+            <p><strong>Address:</strong> @Model.StoreAddress</p>
+            <p><strong>City:</strong> @(Model.StoreCity ?? "N/A")</p>
+            <p><strong>Phone:</strong> @Model.StorePhone</p>
+            <p><strong>Email:</strong> @Model.StoreEmail</p>
+            <p><strong>Tax Registration Number:</strong> @Model.StoreTaxRegistrationNumber</p>
+            <p><strong>Commercial Registration Number:</strong> @Model.StoreCommercialRegistrationNumber</p>
+            
+            @if (Model.VerificationStatusId != 2)
+            {
+                <hr/>
+                
+                <h5 class="card-title">Admin Feedback</h5>
+                @if (!string.IsNullOrWhiteSpace(Model.Feedback))
+                {
+                    <p class="text-danger">@Model.Feedback</p>
+                }
+                else
+                {
+                    <p class="text-muted">No feedback provided yet.</p>
+                }
+            }
+        </div>
+    </div>
+</div>

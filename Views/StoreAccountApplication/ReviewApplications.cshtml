@@ -2,6 +2,20 @@
 
 <h2>Applications</h2>
 
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Success"]
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["Error"]
+    </div>
+}
+
 <div class="applications-container">
     @foreach (var application in Model)
     {
@@ -36,15 +50,49 @@
                         Approve
                     </button>
                 </form>
-                <form asp-action="Reject" asp-controller="Store" method="post" class="d-inline">
-                    <input type="hidden" name="applicationId" value="@application.Id"/>
-                    <button
-                        type="submit"
-                        class="reject-application-btn btn btn-danger btn-sm"
-                        onclick="return confirm('Are you sure about rejecting this application?')">
-                        Reject
-                    </button>
-                </form>
+                @* <form asp-action="Reject" asp-controller="Store" method="post" class="d-inline"> *@
+                @*     <input type="hidden" name="applicationId" value="@application.Id"/> *@
+                @*     <button *@
+                @*         type="submit" *@
+                @*         class="reject-application-btn btn btn-danger btn-sm" *@
+                @*         onclick="return confirm('Are you sure about rejecting this application?')"> *@
+                @*         Reject *@
+                @*     </button> *@
+                @* </form> *@
+                
+                <!-- Reject button triggers modal -->
+                <button type="button" 
+                        class="reject-application-btn btn btn-danger btn-sm" 
+                        data-bs-toggle="modal" 
+                        data-bs-target="#rejectModal-@application.Id">
+                    Reject
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="rejectModal-@application.Id" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form asp-action="Reject" asp-controller="StoreAccountApplication" method="post">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Reject Application #@application.Id</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <input type="hidden" name="applicationId" value="@application.Id" />
+                                    <div class="mb-3">
+                                        <label for="feedback-@application.Id" class="form-label">Feedback (required)</label>
+                                        <textarea class="form-control" name="feedback" id="feedback-@application.Id" required></textarea>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-danger">Confirm Reject</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
             }
         </div>
     }

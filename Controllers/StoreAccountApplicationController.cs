@@ -82,4 +82,40 @@ public class StoreAccountApplicationController : Controller
         
         return View(applications);
     }
+
+    [Authorize(Roles = "Admin")]
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult Reject(int applicationId, string feedback)
+    {
+        var application = _context.StoreAccountApplications.Find(applicationId);
+        if (application == null)
+            return NotFound();
+        
+        if (string.IsNullOrWhiteSpace(feedback))
+        {
+            TempData["Error"] = "Feedback is required for rejection.";
+            return RedirectToAction("ReviewApplications");
+        }
+
+        application.VerificationStatusId = 3;
+        application.Feedback = feedback;
+        _context.SaveChanges();
+        
+        TempData["Success"] = $"Application #{application.Id} was rejected.";
+        return RedirectToAction("ReviewApplications");
+    }
+
+    public IActionResult Details(string userId)
+    {
+        var application = _context.StoreAccountApplications
+            .Include(a => a.StoreCategory)
+            .Include(a => a.VerificationStatus)
+            .FirstOrDefault(a => a.StoreAdminId == userId);
+        
+        if (application == null)
+            return NotFound("Application not found");
+        
+        return View(application);
+    }
 }
