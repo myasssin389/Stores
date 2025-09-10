@@ -60,6 +60,7 @@ public class StoreController : Controller
             var user = await _context.Users.FindAsync(application.StoreAdminId);
             await SetNewUserRoleAsync(user);
 
+            user.ShowStoreAccountApprovalMessage = true;
             await _context.SaveChangesAsync();
             await transaction.CommitAsync();
 
