@@ -123,4 +123,17 @@ public class ProductController : Controller
             "Store",
             new { userId = productToUpdate.Store.StoreAdminId });
     }
+
+    public IActionResult Delete(int id)
+    {
+        var product = _context.Products.SingleOrDefault(p => p.Id == id);
+        var storeAdminId = _userManager.GetUserId(User);
+        if (product == null)
+            return NotFound();
+        
+        _context.Products.Remove(product);
+        _context.SaveChanges();
+        
+        return RedirectToAction("ViewStore", "Store", new { userId = storeAdminId });
+    }
 }

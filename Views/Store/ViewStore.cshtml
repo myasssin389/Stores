@@ -22,13 +22,21 @@
                         <div class="card-footer d-flex flex-column align-items-center">
                             <p>Available: @product.Quantity</p>
                             <strong>@product.Price.ToString("C")</strong>
-                            
-                            <a class="btn btn-primary btn-sm mt-2"
-                               asp-controller="Product"
-                               asp-action="Edit"
-                               asp-route-id="@product.Id">
-                                Edit
-                            </a>
+                            <div class="d-flex gap-2 mt-2">
+                                <a class="btn btn-primary btn-sm" 
+                                   asp-controller="Product" 
+                                   asp-action="Edit" 
+                                   asp-route-id="@product.Id">
+                                    Edit
+                                </a>
+                                <a class="btn btn-danger btn-sm" 
+                                   asp-controller="Product" 
+                                   asp-action="Delete" 
+                                   asp-route-id="@product.Id"
+                                   onclick="return confirm('Are you sure about deleting this product?')">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
