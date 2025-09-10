@@ -89,4 +89,17 @@ public class StoreController : Controller
         var addResult = await _userManager.AddToRoleAsync(user, "StoreAdmin");
         if (!addResult.Succeeded) return;
     }
+
+    public IActionResult ViewStore(string userId)
+    {
+        var store = _context.Stores
+            .Include(s => s.Category)
+            .Include(s => s.Products)
+            .FirstOrDefault(s => s.StoreAdminId == userId);
+
+        if (store == null)
+            return NotFound("Error occurred while retrieving your store");
+        
+        return View(store);
+    }
 }

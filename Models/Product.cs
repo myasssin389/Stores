@@ -20,7 +20,7 @@ public class Product
     [Required]
     public int Quantity { get; set; }
     
-    public Store Store { get; set; }
+    public Store? Store { get; set; }
     
     [Required]
     public int StoreId { get; set; }
@@ -28,6 +28,6 @@ public class Product
     [Column(TypeName = "text")]
     public string? PhotoLink { get; set; }
     
-    public ICollection<CartProductMap> CartProductMaps { get; set; }
+    public ICollection<CartProductMap>? CartProductMaps { get; set; }
     
 }

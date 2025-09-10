@@ -1,0 +1,38 @@
+@model Stores.Models.Store
+
+<div class="store-section mb-4">
+    <div class="d-flex align-items-center justify-content-between mb-3">
+        <h3 class="store-name mb-0">@Model.Name</h3>
+        <a class="btn btn-success" 
+           asp-controller="Product" 
+           asp-action="Create">
+            + Add Product
+        </a>
+    </div>
+    <div class="container">
+        <div class="row">
+            @foreach (var product in Model.Products)
+            {
+                <div class="col-6 col-md-4 col-lg-3 mb-4">
+                    <div class="card text-center h-100">
+                        <div class="card-body card-text-bg">
+                            <p class="card-title">@product.Name</p>
+                        </div>
+                        <img src="@product.PhotoLink" alt="@product.Description" class="card-img-bottom img-fluid product-img"/>
+                        <div class="card-footer d-flex flex-column align-items-center">
+                            <p>Available: @product.Quantity</p>
+                            <strong>@product.Price.ToString("C")</strong>
+                            
+                            <a class="btn btn-primary btn-sm mt-2"
+                               asp-controller="Product"
+                               asp-action="Edit"
+                               asp-route-id="@product.Id">
+                                Edit
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

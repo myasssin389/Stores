@@ -25,10 +25,14 @@
             <p><strong>Category:</strong> @(Model.StoreCategory?.Name ?? "Not assigned")</p>
             <p><strong>Address:</strong> @Model.StoreAddress</p>
             <p><strong>City:</strong> @(Model.StoreCity ?? "N/A")</p>
-            <p><strong>Phone:</strong> @Model.StorePhone</p>
-            <p><strong>Email:</strong> @Model.StoreEmail</p>
             <p><strong>Tax Registration Number:</strong> @Model.StoreTaxRegistrationNumber</p>
             <p><strong>Commercial Registration Number:</strong> @Model.StoreCommercialRegistrationNumber</p>
+            
+            <hr/>
+            
+            <h5 class="card-title">Contact Information</h5>
+            <p><strong>Phone:</strong> @Model.StorePhone</p>
+            <p><strong>Email:</strong> @Model.StoreEmail</p>
             
             @if (Model.VerificationStatusId != 2)
             {
@@ -43,6 +47,14 @@
                 {
                     <p class="text-muted">No feedback provided yet.</p>
                 }
+            }
+            
+            @if (Model.VerificationStatusId == 3)
+            {
+                <a asp-controller="StoreAccountApplication"
+                   asp-action="Apply">
+                    Apply again
+                </a>
             }
         </div>
     </div>

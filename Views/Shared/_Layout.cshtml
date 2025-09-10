@@ -92,10 +92,17 @@
                         <li class="nav-item">
                             <a class="nav-link"
                                asp-area=""
-                               asp-controller="Product"
-                               asp-action="Create">
-                                Add Product
+                               asp-controller="Store"
+                               asp-action="ViewStore"
+                               asp-route-userId="@UserManager.GetUserId(User)">
+                                View My Store
                             </a>
+                        </li>
+                    }
+                    @if (!User.IsInRole("Admin") && SignInManager.IsSignedIn(User))
+                    {
+                        <li>
+                            <a id="orders" class="nav-link text-dark" asp-action="MyOrders" asp-controller="Order" title="PreviousOrders">My Orders</a>
                         </li>
                     }
                     <ul class="navbar-nav">

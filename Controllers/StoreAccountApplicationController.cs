@@ -112,7 +112,9 @@ public class StoreAccountApplicationController : Controller
         var application = _context.StoreAccountApplications
             .Include(a => a.StoreCategory)
             .Include(a => a.VerificationStatus)
-            .FirstOrDefault(a => a.StoreAdminId == userId);
+            .Where(a => a.StoreAdminId == userId)
+            .OrderByDescending(a => a.AppliedAt)
+            .FirstOrDefault();
         
         if (application == null)
             return NotFound("Application not found");

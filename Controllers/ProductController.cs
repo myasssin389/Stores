@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Stores.Data;
 using Stores.Models;
 using Stores.ViewModels;
@@ -55,5 +56,71 @@ public class ProductController : Controller
         _context.SaveChanges();
         
         return RedirectToAction("Index", "Home");
+    }
+
+    [Authorize(Roles = "StoreAdmin")]
+    public IActionResult Edit(int id)
+    {
+        var product = _context.Products
+            .Include(p => p.Store)
+            .SingleOrDefault(p => p.Id == id);
+        if (product == null)
+            return NotFound();
+        
+        return View(product);
+    }
+
+    [HttpPost]
+    [Authorize(Roles = "StoreAdmin")]
+    [ValidateAntiForgeryToken]
+    public IActionResult Edit(Product product)
+    {
+        
+        if (!ModelState.IsValid)
+        {
+            Console.WriteLine("ModelState is invalid. Errors:");
+            foreach (var modelError in ModelState)
+            {
+                foreach (var error in modelError.Value.Errors)
+                {
+                    Console.WriteLine($"Field: {modelError.Key}, Error: {error.ErrorMessage}");
+                }
+            }
+            // Reload the product with Store data for the view
+            var productWithStore = _context.Products
+                .Include(p => p.Store)
+                .SingleOrDefault(p => p.Id == product.Id);
+        
+            if (productWithStore == null)
+                return NotFound();
+        
+            // Copy the form values to the reloaded product
+            productWithStore.Name = product.Name;
+            productWithStore.Description = product.Description;
+            productWithStore.Price = product.Price;
+            productWithStore.Quantity = product.Quantity;
+            productWithStore.PhotoLink = product.PhotoLink;
+        
+            return View(productWithStore);
+        }
+        
+        var productToUpdate = _context.Products
+            .Include(p => p.Store)
+            .SingleOrDefault(p => p.Id == product.Id);
+        if (productToUpdate == null)
+            return NotFound();
+        
+        productToUpdate.Name = product.Name;
+        productToUpdate.Description = product.Description;
+        productToUpdate.Price = product.Price;
+        productToUpdate.Quantity = product.Quantity;
+        productToUpdate.PhotoLink = product.PhotoLink;
+        
+        _context.SaveChanges();
+        
+        TempData["Success"] = "Product updated successfully";
+        return RedirectToAction("ViewStore",
+            "Store",
+            new { userId = productToUpdate.Store.StoreAdminId });
     }
 }
