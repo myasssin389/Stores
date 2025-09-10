@@ -15,4 +15,6 @@ public class ApplicationUser  : IdentityUser
         return this.Id;
     }
 
+    public bool ShowStoreAccountApprovalMessage { get; set; } = false;
+
 }

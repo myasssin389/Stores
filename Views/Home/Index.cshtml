@@ -55,16 +55,19 @@
                                             <p>Available: @product.Quantity</p>
                                             <strong>@product.Price.ToString("C")</strong>
                                             
-                                            <form class="card-footer-form" action="/api/cart/add/@product.Id" method="post">
-                                                <input type="hidden" name="productId" value="@product.Id" />
-                                                <input type="number" class="form-control text-center product-quantity"
-                                                       name="quantity"
-                                                       value="1"
-                                                       min="1"
-                                                       max="@product.Quantity"
-                                                       oninput="checkMax(this, @product.Quantity)" />
-                                                <button type="submit" class="btn btn-outline-primary mt-2 add-to-cart">Add to cart</button>
-                                            </form>
+                                            @if (!User.IsInRole("Admin"))
+                                            {
+                                                <form class="card-footer-form" action="/api/cart/add/@product.Id" method="post">
+                                                    <input type="hidden" name="productId" value="@product.Id" />
+                                                    <input type="number" class="form-control text-center product-quantity"
+                                                           name="quantity"
+                                                           value="1"
+                                                           min="1"
+                                                           max="@product.Quantity"
+                                                           oninput="checkMax(this, @product.Quantity)" />
+                                                    <button type="submit" class="btn btn-outline-primary mt-2 add-to-cart">Add to cart</button>
+                                                </form>
+                                            }
                                         </div>
                                     </div>
                                 </div>
@@ -117,10 +120,12 @@
     </div>
 </div>
 
-<button class="shop-cart-toggler" type="button" aria-label="Toggle shopping cart">
-    <i class="bi bi-cart"></i>
-</button>
-
-<div class="shopping-cart-item-count">
-    <span>@(userCart?.CartProductMaps?.Count ?? 0)</span>
-</div>
+@if (!User.IsInRole("Admin"))
+{
+    <button class="shop-cart-toggler" type="button" aria-label="Toggle shopping cart">
+        <i class="bi bi-cart"></i>
+    </button>
+    <div class="shopping-cart-item-count">
+        <span>@(userCart?.CartProductMaps?.Count ?? 0)</span>
+    </div>
+}
