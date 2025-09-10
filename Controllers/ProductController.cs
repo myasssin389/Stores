@@ -55,7 +55,8 @@ public class ProductController : Controller
         _context.Products.Add(product);
         _context.SaveChanges();
         
-        return RedirectToAction("Index", "Home");
+        TempData["SuccessMessage"] = "Product added successfully";
+        return RedirectToAction("ViewStore", "Store", new { userId = store.StoreAdminId });
     }
 
     [Authorize(Roles = "StoreAdmin")]
@@ -118,7 +119,7 @@ public class ProductController : Controller
         
         _context.SaveChanges();
         
-        TempData["Success"] = "Product updated successfully";
+        TempData["SuccessMessage"] = "Product updated successfully";
         return RedirectToAction("ViewStore",
             "Store",
             new { userId = productToUpdate.Store.StoreAdminId });
@@ -134,6 +135,7 @@ public class ProductController : Controller
         _context.Products.Remove(product);
         _context.SaveChanges();
         
+        TempData["SuccessMessage"] = "Product removed successfully";
         return RedirectToAction("ViewStore", "Store", new { userId = storeAdminId });
     }
 }

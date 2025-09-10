@@ -1,5 +1,7 @@
 @model Stores.Models.Store
 
+@await Html.PartialAsync("_MessagePartial")
+
 <div class="store-section mb-4">
     <div class="d-flex align-items-center justify-content-between mb-3">
         <h3 class="store-name mb-0">@Model.Name</h3>
