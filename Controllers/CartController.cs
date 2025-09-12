@@ -112,6 +112,7 @@ public class CartController : Controller
         var cart = await _context.Carts
             .Include(c => c.CartProductMaps)
             .ThenInclude(cp => cp.Product)
+            .ThenInclude(cp => cp.Store)
             .FirstOrDefaultAsync(c => c.UserId == userId);
 
         if (cart == null || !cart.CartProductMaps.Any())
