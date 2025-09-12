@@ -399,6 +399,7 @@ body::-webkit-scrollbar {
 .checkout-item-inner {
   background-color: #fff;
   border: 1px solid #eee;
+  margin-top: 10px;
   border-radius: 8px;
   padding: 12px;
   display: flex;
