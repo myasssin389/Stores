@@ -27,4 +27,9 @@ public class Order
     [Required]
     public int StatusId { get; set; }
     public OrderStatus Status { get; set; }
+    
+    [Required]
+    public int StoreId { get; set; }
+    
+    public Store? Store { get; set; }
 }
