@@ -126,7 +126,7 @@
         </div>
         <div class="cart-footer">
             <div class="cart-total">
-                <strong>Total: @userCart?.getTotalAmount().ToString("C")</strong>
+                <strong>Total: @userCart?.GetTotalAmount().ToString("C")</strong>
             </div>
             <form asp-action="Checkout" asp-controller="Cart" method="get" style="display:inline;">
                 <button type="submit" class="btn btn-primary btn-sm checkout-btn">Checkout</button>

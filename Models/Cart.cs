@@ -7,7 +7,7 @@ public class Cart
     public string UserId { get; set; }
     public ICollection<CartProductMap> CartProductMaps { get; set; }
 
-    public decimal getTotalAmount()
+    public decimal GetTotalAmount()
     {
         decimal totalAmount = 0;
         foreach (var cartProduct in CartProductMaps)
