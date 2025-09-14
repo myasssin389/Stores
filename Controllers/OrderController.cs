@@ -26,13 +26,12 @@ public class OrderController : Controller
         
         var cart = await _context.Carts
             .Include(c => c.CartProductMaps)
-            .ThenInclude(c => c.Product)
+                .ThenInclude(c => c.Product)
+                    .ThenInclude(p => p.Store)
             .FirstOrDefaultAsync(c => c.UserId == userId);
         
         if (cart == null || !cart.CartProductMaps.Any())
-        {
             return RedirectToAction("Index", "Home");
-        }
         
         if (!ModelState.IsValid)
         {
@@ -50,30 +49,53 @@ public class OrderController : Controller
                 ? shippingAddress 
                 : await GetOrCreateAddressAsync(model.BillingAddress);
         }
-
-        var order = new Order
-        {
-            UserId = userId,
-            ShippingAddress = shippingAddress,
-            BillingAddress = billingAddress,
-            PaymentMethodId = model.SelectedPaymentMethodId,
-            Date = DateTime.Now,
-            OrderItems = cart.CartProductMaps.Select(cp => new OrderItem
-            {
-                ProductId = cp.ProductId,
-                Quantity = cp.Quantity
-            }).ToList(),
-            StatusId = 1, // Pending
-            Total = cart.getTotalAmount()
-        };
         
-        _context.Orders.Add(order);
+        var productsGroupedByStoreId = cart.CartProductMaps.GroupBy(cpm => cpm.Product.StoreId);
+        var createdOrders = new List<Order>();
+        foreach (var storeGroup in productsGroupedByStoreId)
+        {
+            var orderItems = storeGroup.Select(sg => new OrderItem
+            {
+                ProductId = sg.ProductId,
+                Quantity = sg.Quantity,
+                Product = sg.Product
+            }).ToList();
+            
+            var order = new Order
+            {
+                UserId = userId,
+                ShippingAddress = shippingAddress,
+                BillingAddress = billingAddress,
+                PaymentMethodId = model.SelectedPaymentMethodId,
+                Date = DateTime.UtcNow,
+                OrderItems = orderItems,
+                StatusId = 1,
+                Total = GetTotalAmount(orderItems),
+                StoreId = storeGroup.Key
+            };
+            
+            _context.Orders.Add(order);
+            createdOrders.Add(order);
+        }
         
         _context.CartProductMaps.RemoveRange(cart.CartProductMaps);
         
         await _context.SaveChangesAsync();
         
-        return RedirectToAction("OrderConfirmation", new { orderId = order.Id });
+        var orderIds = createdOrders.Select(o => o.Id).ToList();
+        
+        return RedirectToAction("OrderConfirmation", new { orderIds = string.Join(",", orderIds) });
+    }
+
+    public decimal GetTotalAmount(List<OrderItem> orderItems)
+    {
+        decimal totalAmount = 0;
+        foreach (var item in orderItems)
+        {
+            totalAmount += item.Quantity * item.Product.Price;
+        }
+
+        return totalAmount;
     }
 
     public async Task<Address> GetOrCreateAddressAsync(Address input)
@@ -81,13 +103,12 @@ public class OrderController : Controller
         if (input == null)
             return null;
         
-        var addresses = await _context.Addresses.ToListAsync();
-        var existingAddress = addresses.FirstOrDefault(a =>
-            a.City?.Trim().ToLower() == input.City?.Trim().ToLower() &&
-            a.StreetName?.Trim().ToLower() == input.StreetName?.Trim().ToLower() &&
-            a.StreetNumber?.Trim() == input.StreetNumber?.Trim() &&
-            a.BuildingNumber?.Trim() == input.BuildingNumber?.Trim() &&
-            a.ApartmentNumber?.Trim() == input.ApartmentNumber?.Trim());
+        var existingAddress = await _context.Addresses.FirstOrDefaultAsync(a =>
+            a.City.Trim().ToLower() == input.City.Trim().ToLower() &&
+            a.StreetName.Trim().ToLower() == input.StreetName.Trim().ToLower() &&
+            a.StreetNumber.Trim() == input.StreetNumber.Trim() &&
+            a.BuildingNumber.Trim() == input.BuildingNumber.Trim() &&
+            a.ApartmentNumber.Trim() == input.ApartmentNumber.Trim());
 
 
         if (existingAddress != null)
@@ -97,21 +118,20 @@ public class OrderController : Controller
         return input;
     }
     
-    public async Task<IActionResult> OrderConfirmation(int? orderId)
+    public async Task<IActionResult> OrderConfirmation(string orderIds)
     {
-        var userId = _userManager.GetUserId(User);
-        
-        var order = await _context.Orders
+        var ids = orderIds.Split(',').Select(int.Parse).ToList();
+        var orders = _context.Orders
             .Include(o => o.OrderItems)
                 .ThenInclude(oi => oi.Product)
+            .Include(o => o.Store)
             .Include(o => o.ShippingAddress)
+            .Include(o => o.BillingAddress)
             .Include(o => o.PaymentMethod)
-            .FirstOrDefaultAsync(o => o.Id == orderId && o.UserId == userId);
-        
-        if (order == null)
-            return RedirectToAction("Index", "Home");
+            .Where(o => ids.Contains(o.Id))
+            .ToList();
 
-        return View(order);
+        return View(orders);
     }
 
     public async Task<IActionResult> MyOrders()
