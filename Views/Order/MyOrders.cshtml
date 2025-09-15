@@ -22,7 +22,7 @@
 <div class="orders-container">
     @foreach (var order in Model)
     {
-        <div class="order-card mb-4 p-3 border rounded" data-status="@order.Status">
+        <div class="order-card mb-4 p-3 border rounded" data-status="@order.Status.ToString()">
             @if (order.Status == OrderStatus.Cancelled)
             {
                 <h5 style="text-decoration: line-through">Order #@order.Id - @order.Status.ToString()</h5>

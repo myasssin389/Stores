@@ -583,25 +583,25 @@ body::-webkit-scrollbar {
   border-radius: 12px;
   padding: 20px;
   margin-bottom: 20px;
-  box-shadow: 0px 2px 6px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }
 
 /* Order Status Colors */
 .order-card[data-status="Pending"] {
-  border-left: 5px solid #ffc107;
+  border-left: 5px solid #ffc107 !important;
 }
 
 .order-card[data-status="Confirmed"],
 .order-card[data-status="Shipped"] {
-  border-left: 5px solid #0dcaf0;
+  border-left: 5px solid #0dcaf0 !important;
 }
 
 .order-card[data-status="Delivered"] {
-  border-left: 5px solid #28a745;
+  border-left: 5px solid #28a745 !important;
 }
 
 .order-card[data-status="Cancelled"] {
-  border-left: 5px solid #dc3545;
+  border-left: 5px solid #dc3545 !important;
 }
 
 .order-card ul {

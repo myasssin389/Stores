@@ -170,7 +170,7 @@ public class OrderController : Controller
     public IActionResult ManageOrders(int storeId)
     {
         if (storeId == 0)
-            return RedirectToAction("ViewStore", "Store");
+            return NotFound("Store not found");
 
         var orders = _context.Orders
             .Include(o => o.OrderItems)
@@ -180,6 +180,12 @@ public class OrderController : Controller
             .Include(o => o.BillingAddress)
             .Where(o => o.StoreId == storeId)
             .ToList();
+
+        if (orders.Count == 0)
+        {
+            TempData["ErrorMessage"] = "No orders found for this store.";
+            return RedirectToAction("ViewStore", "Store", new { userId = _userManager.GetUserId(User) });
+        }
 
         return View(orders);
     }
@@ -235,6 +241,8 @@ public class OrderController : Controller
             return NotFound("Order not found");
         
         order.Status = viewModel.Status;
+        if (order.Status == OrderStatus.Delivered)
+            order.DeliveryDate = DateTime.UtcNow;
         _context.SaveChanges();
         
         TempData["SuccessMessage"] = "Order status updated successfully";
