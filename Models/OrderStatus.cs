@@ -2,10 +2,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Stores.Models;
 
-public class OrderStatus
+public enum OrderStatus
 {
-    public int Id { get; set; }
-    [Required]
-    [MaxLength(15)]
-    public string Name { get; set; }
+    Pending = 1,
+    Confirmed = 2,
+    Shipped = 3,
+    Delivered = 4,
+    Cancelled = 5
 }

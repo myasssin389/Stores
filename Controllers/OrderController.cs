@@ -69,7 +69,7 @@ public class OrderController : Controller
                 PaymentMethodId = model.SelectedPaymentMethodId,
                 Date = DateTime.UtcNow,
                 OrderItems = orderItems,
-                StatusId = 1,
+                Status = OrderStatus.Pending,
                 Total = GetTotalAmount(orderItems),
                 StoreId = storeGroup.Key
             };
@@ -161,14 +161,12 @@ public class OrderController : Controller
         if (order == null)
             return RedirectToAction("Index", "Home");
 
-        if (order.StatusId != 1 && order.StatusId != 2)
+        if (order.Status != OrderStatus.Pending && order.Status != OrderStatus.Confirmed)
             return RedirectToAction("MyOrders");
         
-        order.StatusId = 5;
+        order.Status = OrderStatus.Cancelled;
         foreach (var item in order.OrderItems)
-        {
             item.Product.Quantity += item.Quantity;
-        }
         
         _context.Orders.Update(order);
         await _context.SaveChangesAsync();
@@ -193,5 +191,23 @@ public class OrderController : Controller
             .ToList();
 
         return View(orders);
+    }
+
+    public IActionResult OrderDetails(int? orderId)
+    {
+        if (orderId == null)
+            return NotFound("Order not found");
+        
+        var order = _context.Orders
+            .Include(o => o.OrderItems)
+                .ThenInclude(oi => oi.Product)
+            .Include(o => o.Store)
+            .Include(o => o.ShippingAddress)
+            .Include(o => o.BillingAddress)
+            .Include(o => o.PaymentMethod)
+            .Include(o => o.Status)
+            .FirstOrDefault(o => o.Id == orderId);
+        
+        return View(order);
     }
 }

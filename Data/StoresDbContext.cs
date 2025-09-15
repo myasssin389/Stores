@@ -58,8 +58,6 @@ public class StoresDbContext : IdentityDbContext<ApplicationUser>
     
     public DbSet<PaymentMethod> PaymentMethods { get; set; }
     
-    public DbSet<OrderStatus> OrderStatuses { get; set; }
-    
     public DbSet<VerificationStatus> VerificationStatuses { get; set; }
     
     public DbSet<StoreAccountApplication> StoreAccountApplications { get; set; }

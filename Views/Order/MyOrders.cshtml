@@ -22,14 +22,14 @@
 <div class="orders-container">
     @foreach (var order in Model)
     {
-        <div class="order-card mb-4 p-3 border rounded" data-status="@order.Status.Name">
-            @if (order.Status.Name == "Cancelled")
+        <div class="order-card mb-4 p-3 border rounded" data-status="@order.Status">
+            @if (order.Status == OrderStatus.Cancelled)
             {
-                <h5 style="text-decoration: line-through">Order #@order.Id - @order.Status.Name</h5>
+                <h5 style="text-decoration: line-through">Order #@order.Id - @order.Status.ToString()</h5>
             }
             else
             {
-                <h5>Order #@order.Id - @order.Status.Name</h5>
+                <h5>Order #@order.Id - @order.Status.ToString()</h5>
             }
             <p><strong>Date:</strong> @order.Date.ToString("g")</p>
             <p><strong>Total:</strong> @order.Total.ToString("C")</p>
@@ -41,7 +41,7 @@
                 }
             </ul>
 
-            @if (order.Status.Name == "Pending" || order.Status.Name == "Confirmed")
+            @if (order.Status == OrderStatus.Pending || order.Status == OrderStatus.Confirmed)
             {
                 <form asp-action="CancelOrder" asp-controller="Order" method="post" class="d-inline">
                     <input type="hidden" name="orderId" value="@order.Id"/>
