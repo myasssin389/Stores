@@ -634,3 +634,11 @@ body::-webkit-scrollbar {
 .manage-account-nav > li > a:hover {
   color: #344d6a;
 }
+
+/* ==========================================================================
+   APPLICATION DETAILS
+   ========================================================================== */
+
+.card-header {
+  background-color: #5faeb6 !important;
+}

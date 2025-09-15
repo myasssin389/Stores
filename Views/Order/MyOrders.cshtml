@@ -1,3 +1,4 @@
+@using Microsoft.AspNetCore.Identity.Data
 @model IEnumerable<Stores.Models.Order>
 
 <h2>My Orders</h2>
@@ -32,6 +33,10 @@
                 <h5>Order #@order.Id - @order.Status.ToString()</h5>
             }
             <p><strong>Date:</strong> @order.Date.ToString("g")</p>
+            @if (order.Status == OrderStatus.Delivered && order.DeliveryDate.HasValue)
+            {
+                <p><strong>Delivery Date:</strong> @order.DeliveryDate.Value.ToString("g")</p>
+            }
             <p><strong>Total:</strong> @order.Total.ToString("C")</p>
 
             <ul>

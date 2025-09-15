@@ -178,6 +178,7 @@ public class OrderController : Controller
             .Include(o => o.Store)
             .Include(o => o.ShippingAddress)
             .Include(o => o.BillingAddress)
+            .Include(o => o.User)
             .Where(o => o.StoreId == storeId)
             .ToList();
 
