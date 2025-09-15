@@ -129,7 +129,8 @@ body::-webkit-scrollbar {
 /* Primary Action Buttons */
 .save-btn,
 .register-btn,
-.login-btn {
+.login-btn,
+.save-changes-btn {
   padding: 7px 20px;
   font-size: 17px;
   border-radius: 9px;
@@ -141,7 +142,8 @@ body::-webkit-scrollbar {
 
 .save-btn:hover,
 .register-btn:hover,
-.login-btn:hover {
+.login-btn:hover,
+.save-changes-btn:hover{
   background-color: #27ae60;
   transform: scale(1.03);
 }
@@ -210,7 +212,7 @@ body::-webkit-scrollbar {
   background-color: #ff7f50 !important;
 }
 
-/* view and update status buttons */
+/* View and Update Status Buttons */
 .view-order-btn, .update-status-btn {
   border: none;
   margin: 5px 0;
@@ -240,6 +242,55 @@ body::-webkit-scrollbar {
 
 .update-status-btn:hover {
   background-color: #344d6a;
+}
+
+/* Edit Product Button */
+.edit-product-btn {
+  background-color: #3f6184;
+  border: none;
+  transition: 0.25s ease-in-out;
+}
+
+.edit-product-btn:hover {
+  background-color: #344d6a;
+}
+
+/* Cancel Button */
+
+.cancel-btn {
+  border-radius: 9px;
+  transition: 0.25s ease-in-out;
+}
+
+.cancel-btn:hover {
+  transform: scale(1.03);
+}
+
+/* Add Product/Manage Orders Buttons */
+.add-product-btn, .manage-orders-btn {
+  background-color: #2ecc71;
+  color: #fff;
+  border-radius: 9px;
+  border: none;
+  transition: 0.25s ease-in-out;
+}
+
+.add-product-btn {
+  background-color: #2ecc71;
+}
+
+.add-product-btn:hover {
+  background-color: #27ae60;
+  transform: scale(1.03);
+}
+
+.manage-orders-btn {
+  background-color: #3f6184;
+}
+
+.manage-orders-btn:hover {
+  background-color: #344d6a;
+  transform: scale(1.03);
 }
 
 /* ==========================================================================

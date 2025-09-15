@@ -3,19 +3,21 @@
 @await Html.PartialAsync("_MessagePartial")
 
 <div class="store-section mb-4">
-    <div class="d-flex align-items-center justify-content-between mb-3">
+    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between mb-3">
         <h3 class="store-name mb-0">@Model.Name</h3>
-        <a class="btn btn-success"
-           asp-controller="Order"
-           asp-action="ManageOrders"
-           asp-route-storeId="@Model.Id">
-            Manage Orders
-        </a>
-        <a class="btn btn-success" 
-           asp-controller="Product" 
-           asp-action="Create">
-            + Add Product
-        </a>
+        <div class="d-flex gap-2">
+            <a class="manage-orders-btn btn btn-success"
+               asp-controller="Order"
+               asp-action="ManageOrders"
+               asp-route-storeId="@Model.Id">
+                Manage Orders
+            </a>
+            <a class="add-product-btn btn btn-success" 
+               asp-controller="Product" 
+               asp-action="Create">
+                + Add Product
+            </a>
+        </div>
     </div>
     <div class="container">
         <div class="row">
@@ -31,7 +33,7 @@
                             <p>Available: @product.Quantity</p>
                             <strong>@product.Price.ToString("C")</strong>
                             <div class="d-flex gap-2 mt-2">
-                                <a class="btn btn-primary btn-sm" 
+                                <a class="edit-product-btn btn btn-primary btn-sm" 
                                    asp-controller="Product" 
                                    asp-action="Edit" 
                                    asp-route-id="@product.Id">
