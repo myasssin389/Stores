@@ -5,6 +5,12 @@
 <div class="store-section mb-4">
     <div class="d-flex align-items-center justify-content-between mb-3">
         <h3 class="store-name mb-0">@Model.Name</h3>
+        <a class="btn btn-success"
+           asp-controller="Order"
+           asp-action="ManageOrders"
+           asp-route-storeId="@Model.Id">
+            Manage Orders
+        </a>
         <a class="btn btn-success" 
            asp-controller="Product" 
            asp-action="Create">

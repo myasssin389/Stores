@@ -175,4 +175,23 @@ public class OrderController : Controller
 
         return RedirectToAction("MyOrders");
     }
+
+    public IActionResult ManageOrders(int storeId)
+    {
+        if (storeId == 0)
+            return RedirectToAction("ViewStore", "Store");
+
+        var orders = _context.Orders
+            .Include(o => o.OrderItems)
+                .ThenInclude(oi => oi.Product)
+            .Include(o => o.Store)
+            .Include(o => o.ShippingAddress)
+            .Include(o => o.BillingAddress)
+            .Include(o => o.PaymentMethod)
+            .Include(o => o.Status)
+            .Where(o => o.StoreId == storeId)
+            .ToList();
+
+        return View(orders);
+    }
 }
