@@ -299,9 +299,8 @@ body::-webkit-scrollbar {
 
 .category-tab,
 .option-tab {
-  background-color: #3f6184;
-  color: #f6f7f9;
-  border: none;
+  background-color: #e9ecef;
+  color: #495057;
   border-radius: 25px;
   padding: 10px 20px;
   font-weight: 500;
@@ -319,14 +318,14 @@ body::-webkit-scrollbar {
 
 .category-tab:hover,
 .option-tab:hover {
-  background-color: #344d6a;
-  color: #fff;
+  background-color: #ffd8c7;
+  color: #495057;
   text-decoration: none;
 }
 
 .category-tab.active,
 .option-tab.active {
-  background-color: #5faeb6 !important;
+  background-color: #ff7f50 !important;
   color: #323a45;
   text-decoration: underline;
   text-underline-offset: 4px;
@@ -466,6 +465,11 @@ body::-webkit-scrollbar {
 .card {
   border-top-left-radius: 9px;
   border-top-right-radius: 9px;
+  transition: 0.25s ease-in-out;
+}
+
+.card:hover {
+  box-shadow: 0 4px 10px rgba(255, 127, 80, 0.3);
 }
 
 .card-text-bg {
