@@ -147,7 +147,6 @@ public class OrderController : Controller
     public async Task<IActionResult> CancelOrder(int? orderId)
     {
         var order = await _context.Orders
-            .Include(o => o.Status)
             .Include(o => o.OrderItems)
                 .ThenInclude(oi => oi.Product)
             .FirstOrDefaultAsync(o => o.Id == orderId);
