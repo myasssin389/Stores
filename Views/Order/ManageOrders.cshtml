@@ -4,6 +4,8 @@
     ViewData["Title"] = "Manage Orders";
 }
 
+@await Html.PartialAsync("_MessagePartial")
+
 <h2>Manage Orders</h2>
 
 <table class="table table-striped">
@@ -28,7 +30,7 @@
             <td>@order.Total.ToString("C")</td>
             <td>
                 <a asp-action="OrderDetails" asp-route-orderId="@order.Id" class="view-order-btn btn btn-sm btn-info">View</a>
-                <a asp-action="UpdateStatus" asp-route-id="@order.Id" class="update-status-btn btn btn-sm btn-warning">Update Status</a>
+                <a asp-action="UpdateStatus" asp-route-orderId="@order.Id" class="update-status-btn btn btn-sm btn-warning">Update Status</a>
             </td>
         </tr>
     }

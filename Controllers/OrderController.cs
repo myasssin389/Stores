@@ -200,4 +200,44 @@ public class OrderController : Controller
         
         return View(order);
     }
+
+    [HttpGet]
+    public IActionResult UpdateStatus(int? orderId)
+    {
+        if (orderId == null)
+            return NotFound("Order not found");
+        
+        var order = _context.Orders
+            .FirstOrDefault(o => o.Id == orderId);
+        if (order == null)
+            return NotFound("Order not found");
+
+        var viewModel = new UpdateOrderStatusViewModel
+        {
+            Id = order.Id,
+            Status = order.Status,
+            StoreId = order.StoreId
+        };
+        
+        return View(viewModel);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult UpdateStatus(UpdateOrderStatusViewModel viewModel)
+    {
+        if (!ModelState.IsValid)
+            return View(viewModel);
+
+        var order = _context.Orders
+            .FirstOrDefault(o => o.Id == viewModel.Id);
+        if (order == null)
+            return NotFound("Order not found");
+        
+        order.Status = viewModel.Status;
+        _context.SaveChanges();
+        
+        TempData["SuccessMessage"] = "Order status updated successfully";
+        return RedirectToAction("ManageOrders", new { storeId = viewModel.StoreId });
+    }
 }

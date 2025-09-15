@@ -1,0 +1,23 @@
+@model Stores.ViewModels.UpdateOrderStatusViewModel
+
+@{
+    ViewData["Title"] = "Update Order Status";
+}
+
+<h2>Update Status for Order #@Model.Id</h2>
+
+<form asp-action="UpdateStatus" asp-controller="Order" method="post">
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="StoreId" />
+
+    <div class="mb-3">
+        <label asp-for="Status" class="form-label">Order Status</label>
+        <select asp-for="Status"
+                asp-items="Html.GetEnumSelectList<OrderStatus>()"
+                class="form-select">
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-success">Save</button>
+    <a asp-action="ManageOrders" asp-route-storeId="@Model.StoreId" class="btn btn-secondary">Cancel</a>
+</form>
