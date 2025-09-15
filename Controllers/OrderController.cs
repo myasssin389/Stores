@@ -195,6 +195,7 @@ public class OrderController : Controller
             .Include(o => o.Store)
             .Include(o => o.ShippingAddress)
             .Include(o => o.BillingAddress)
+            .Include(o => o.User)
             .FirstOrDefault(o => o.Id == orderId);
         
         return View(order);

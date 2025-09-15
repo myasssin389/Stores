@@ -210,6 +210,38 @@ body::-webkit-scrollbar {
   background-color: #ff7f50 !important;
 }
 
+/* view and update status buttons */
+.view-order-btn, .update-status-btn {
+  border: none;
+  margin: 5px 0;
+  color: #fff;
+  transition: 0.25s ease-in-out;
+  padding: 5px 5px;
+  min-width: 120px;
+  text-align: center;
+}
+
+.view-order-btn:hover, .update-status-btn:hover {
+  color: #fff;
+  transform: scale(1.03);
+}
+
+.view-order-btn {
+  background-color: #5faeb6;
+}
+
+.view-order-btn:hover {
+  background-color: #4a9ca3;
+}
+
+.update-status-btn {
+  background-color: #3f6184;
+}
+
+.update-status-btn:hover {
+  background-color: #344d6a;
+}
+
 /* ==========================================================================
    TAB NAVIGATION
    ========================================================================== */
