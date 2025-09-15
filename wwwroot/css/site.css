@@ -360,7 +360,7 @@ body::-webkit-scrollbar {
 
 .shopping-cart-item-count {
   position: fixed;
-  background-color: #e74c3c;
+  background-color: #ff7f50;
   color: #fff;
   border-radius: 50%;
   width: 20px;
