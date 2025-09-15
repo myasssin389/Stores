@@ -111,14 +111,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
 document.addEventListener("DOMContentLoaded", function () {
     const paymentSelect = document.getElementById("paymentMethod");
+    if (!paymentSelect) return console.warn("paymentMethod select not found");
+    
+    const COD_VALUE = paymentSelect.dataset.cod;
     const billingCheckboxContainer = document.getElementById("billingCheckboxContainer");
     const billingCheckbox = document.getElementById("useDifferentBilling");
     const billingAddressContainer = document.getElementById("billingAddressContainer");
-
+    
     function toggleBillingOptions() {
-        const selectedText = paymentSelect.options[paymentSelect.selectedIndex].text;
-
-        if (selectedText === "Cash on Delivery") {
+        if (paymentSelect.value === COD_VALUE) {
             billingCheckboxContainer.style.display = "block";
         } else {
             billingCheckboxContainer.style.display = "none";
@@ -126,15 +127,11 @@ document.addEventListener("DOMContentLoaded", function () {
             billingCheckbox.checked = false;
         }
     }
-
-    // Run on change
+    
     paymentSelect.addEventListener("change", toggleBillingOptions);
-
-    // Run when checkbox changes
     billingCheckbox.addEventListener("change", function () {
         billingAddressContainer.style.display = this.checked ? "block" : "none";
     });
 
-    // Initialize on page load
     toggleBillingOptions();
 });

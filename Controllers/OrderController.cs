@@ -90,9 +90,7 @@ public class OrderController : Controller
     {
         decimal totalAmount = 0;
         foreach (var item in orderItems)
-        {
             totalAmount += item.Quantity * item.Product.Price;
-        }
 
         return totalAmount;
     }
@@ -126,7 +124,6 @@ public class OrderController : Controller
             .Include(o => o.Store)
             .Include(o => o.ShippingAddress)
             .Include(o => o.BillingAddress)
-            .Include(o => o.PaymentMethod)
             .Where(o => ids.Contains(o.Id))
             .ToList();
 
@@ -142,8 +139,6 @@ public class OrderController : Controller
             .Include(o => o.OrderItems)
             .ThenInclude(oi => oi.Product)
             .Include(o => o.ShippingAddress)
-            .Include(o => o.PaymentMethod)
-            .Include(o => o.Status)
             .ToListAsync();
 
         return View(orders);
@@ -184,8 +179,6 @@ public class OrderController : Controller
             .Include(o => o.Store)
             .Include(o => o.ShippingAddress)
             .Include(o => o.BillingAddress)
-            .Include(o => o.PaymentMethod)
-            .Include(o => o.Status)
             .Where(o => o.StoreId == storeId)
             .ToList();
 
@@ -203,8 +196,6 @@ public class OrderController : Controller
             .Include(o => o.Store)
             .Include(o => o.ShippingAddress)
             .Include(o => o.BillingAddress)
-            .Include(o => o.PaymentMethod)
-            .Include(o => o.Status)
             .FirstOrDefault(o => o.Id == orderId);
         
         return View(order);

@@ -70,7 +70,8 @@
             asp-for="SelectedPaymentMethod" 
             class="form-select" 
             id="paymentMethod"
-            asp-items="Html.GetEnumSelectList<PaymentMethod>()">
+            asp-items="Html.GetEnumSelectList<PaymentMethod>()"
+            data-cod="@((int)PaymentMethod.CashOnDelivery)">
             <option value="">Select Payment Method</option>
         </select>
     </div>
