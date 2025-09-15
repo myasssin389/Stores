@@ -35,7 +35,6 @@ public class OrderController : Controller
         
         if (!ModelState.IsValid)
         {
-            model.PaymentMethods = await _context.PaymentMethods.ToListAsync();
             model.Cart = cart;
             return View("~/Views/Cart/Checkout.cshtml", model);
         }
@@ -43,7 +42,7 @@ public class OrderController : Controller
         var shippingAddress = await GetOrCreateAddressAsync(model.ShippingAddress);
         Address billingAddress = null;
 
-        if (model.SelectedPaymentMethodId == 3) // Cash on Delivery
+        if (model.SelectedPaymentMethod == PaymentMethod.CashOnDelivery) // Cash on Delivery
         {
             billingAddress = model.BillingAddress == null 
                 ? shippingAddress 
@@ -66,7 +65,7 @@ public class OrderController : Controller
                 UserId = userId,
                 ShippingAddress = shippingAddress,
                 BillingAddress = billingAddress,
-                PaymentMethodId = model.SelectedPaymentMethodId,
+                PaymentMethod = model.SelectedPaymentMethod,
                 Date = DateTime.UtcNow,
                 OrderItems = orderItems,
                 Status = OrderStatus.Pending,

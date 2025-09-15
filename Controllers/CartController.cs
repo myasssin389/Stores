@@ -117,13 +117,10 @@ public class CartController : Controller
 
         if (cart == null || !cart.CartProductMaps.Any())
             return RedirectToAction("Index", "Home");
-        
-        var paymentMethods = await _context.PaymentMethods.ToListAsync();
 
         var checkoutViewModel = new CheckoutViewModel
         {
-            Cart = cart,
-            PaymentMethods = paymentMethods
+            Cart = cart
         };
 
         return View(checkoutViewModel);

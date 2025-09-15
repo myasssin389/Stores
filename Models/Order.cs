@@ -21,8 +21,6 @@ public class Order
     public int? BillingAddressId { get; set; }
     public Address? BillingAddress { get; set; }
     public ICollection<OrderItem> OrderItems { get; set; }
-    [Required]
-    public int PaymentMethodId { get; set; }
     public PaymentMethod PaymentMethod { get; set; }
     public OrderStatus Status { get; set; }
     

@@ -15,7 +15,7 @@ public class CheckoutViewModel
     public Address BillingAddress { get; set; } = new Address();
 
     [Required]
-    public int SelectedPaymentMethodId { get; set; }
+    public PaymentMethod SelectedPaymentMethod { get; set; }
     
     [ValidateNever]
     public List<PaymentMethod> PaymentMethods { get; set; } = new List<PaymentMethod>();

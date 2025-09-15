@@ -2,9 +2,14 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Stores.Models;
 
-public class PaymentMethod
+public enum PaymentMethod
 {
-    public int Id { get; set; }
-    [MaxLength(30)]
-    public string Name { get; set; }
+    [Display(Name = "Credit Card")]
+    CreditCard = 1,
+    
+    [Display(Name = "Debit Card")]
+    DebitCard = 2,
+    
+    [Display(Name = "Cash On Delivery")]
+    CashOnDelivery = 3
 }
